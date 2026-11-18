@@ -85,3 +85,46 @@ assert pipeline_config["checkpoint_interval_seconds"] > 0
 - Monitor active lag metrics and consumer offsets every 10 seconds.
 - Validate end-to-end processing SLA latency using distributed tracing.
 - Maintain automated regression assertions across test environments.
+
+---
+
+## 4. Apache Kafka 3.8+ KRaft Consensus & Sub-Second Controller Failover
+
+Modern event streaming architectures run **Apache Kafka KRaft (Kafka Raft)** in production, entirely removing external ZooKeeper dependencies and maintaining metadata within an event-driven internal log.
+
+```mermaid
+flowchart TD
+    subgraph KRaftQuorum["KRaft Metadata Controller Quorum"]
+        ActiveController["Active Controller Node (Raft Leader)"]
+        Follower1["Controller Standby 1 (Follower)"]
+        Follower2["Controller Standby 2 (Follower)"]
+        MetaTopic["@metadata Topic (Internal Event Log)"]
+    end
+
+    subgraph BrokerFleet["High-Throughput Broker Nodes"]
+        B1["Broker 101 (Partitions 0, 3)"]
+        B2["Broker 102 (Partitions 1, 4)"]
+        B3["Broker 103 (Partitions 2, 5)"]
+    end
+
+    ActiveController --> MetaTopic
+    MetaTopic --> Follower1 & Follower2
+    ActiveController -->|Replication State & ISR Sync| B1 & B2 & B3
+```
+
+### Production Configuration: KRaft Server Properties (`server.properties`)
+```ini
+# Production KRaft broker and controller quorum configuration
+process.roles=broker,controller
+node.id=1
+controller.quorum.voters=1@kafka1:9093,2@kafka2:9093,3@kafka3:9093
+listeners=PLAINTEXT://:9092,CONTROLLER://:9093
+inter.broker.listener.name=PLAINTEXT
+controller.listener.names=CONTROLLER
+log.dirs=/var/lib/kafka/data
+metadata.log.dir=/var/lib/kafka/metadata
+```
+
+### Key KRaft Invariants:
+- **Zero External ZooKeeper Dependencies**: All partition assignments, leader elections, and topic metadata commit directly to the `@metadata` partition log.
+- **Sub-Second Controller Recovery**: Standby controllers continuously replicate the metadata log in real-time, executing leader election in $< 500	ext{ms}$.
