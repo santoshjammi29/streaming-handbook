@@ -65,3 +65,28 @@ In production systems, this incident typically originates from sudden traffic su
 - [ ] Pipeline metrics return to baseline with 0 active error alerts.
 - [ ] Processing latency conforms to standard production SLAs.
 - [ ] Postmortem root cause documented and shared with architecture leads.
+
+
+---
+
+## 5. Delta Change Data Feed & Mosaic AI Vector Sync Stall Triage
+
+### 5.1 Incident Symptoms & Root Cause
+- **Symptoms**: Vector Search queries return stale results ($> 30\text{ minutes}$ old), and Databricks Vector Search console displays `SYNC_IN_PROGRESS: High Lag Observed`.
+- **Root Cause**: Streaming writers generated millions of micro-files in the Delta table, causing the Vector Search CDF scanner to spend excessive time listing files rather than computing embeddings.
+
+### 5.2 Remediation & File Compaction Hotfix
+1. **Compact Small Files in Delta Table**:
+```sql
+-- Trigger immediate bin-packing compaction on source table
+OPTIMIZE prod_catalog.security.threat_events_gold;
+
+-- Enable auto-compaction for streaming writes
+ALTER TABLE prod_catalog.security.threat_events_gold 
+SET TBLPROPERTIES (
+    'delta.autoOptimize.optimizeWrite' = 'true',
+    'delta.autoOptimize.autoCompact' = 'true'
+);
+```
+
+2. **Restart Vector Search Pipeline**: In Vector Search Console, trigger an on-demand sync cycle to resume stream processing from the latest checkpoint commit.

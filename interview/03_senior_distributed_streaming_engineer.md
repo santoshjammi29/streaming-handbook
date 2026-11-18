@@ -1192,3 +1192,47 @@ Static cron schedules fail when external partners deliver data unpredictably (e.
 **Certification Alignment:** `Confluent Certified Developer for Apache Kafka / Apache Flink Specialist`
 
 ---
+
+---
+
+### Real-Time Streaming Ingestion for Mosaic AI Vector Search (Streaming AI Architecture)
+
+#### Scenario & Technical Context
+A cybersecurity threat-intelligence platform streams network audit logs from Apache Kafka (KRaft mode) into Delta Lake. Security analysts query an AI Agent that relies on Mosaic AI Vector Search to retrieve similar attack signatures in real time ($< 30\text{ seconds}$ from log creation to vector index visibility).
+
+#### Production Streaming & Delta CDF Pipeline Implementation
+```python
+from pyspark.sql import functions as F
+
+# Stream real-time threat events from Kafka KRaft cluster
+# Decoupled consumer groups process raw syslog events
+df_threats = (
+    spark.readStream
+    .format("kafka")
+    .option("kafka.bootstrap.servers", "kafka-broker1:9092,kafka-broker2:9092")
+    .option("subscribe", "security.threat.events")
+    .option("startingOffsets", "latest")
+    .load()
+    .select(F.from_json(
+        F.col("value").cast("string"),
+        "event_id STRING, timestamp TIMESTAMP, ip_source STRING, payload_signature STRING, threat_severity STRING"
+    ).alias("event"))
+    .select("event.*")
+)
+
+# Sink to Delta table with Change Data Feed enabled
+# Drives sub-second Delta Sync in Mosaic AI Vector Search
+query = (
+    df_threats.writeStream
+    .format("delta")
+    .outputMode("append")
+    .option("checkpointLocation", "abfss://checkpoints@datalake.dfs.core.windows.net/threats_cdf")
+    .option("delta.enableChangeDataFeed", "true")
+    .table("prod_catalog.security.threat_events_gold")
+)
+```
+
+#### Key Invariants & Architectural Gotchas
+- `delta.enableChangeDataFeed = true` is mandatory for Mosaic AI Vector Search Delta Sync.
+- Maintain continuous micro-batch intervals (e.g. `processingTime='5 seconds'`) to keep sync latency under 20 seconds.
+- Monitor `_change_data` directory size and ensure automated vacuum schedules do not prune within the Vector Search retention window ($7\text{ days}$).
