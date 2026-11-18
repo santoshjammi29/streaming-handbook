@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "streaming-handbook"
+version = "1.0.0"
+description = "Production Apache Kafka, Apache Flink, Debezium CDC, and stream-to-lakehouse exactly-once architectures."
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Santosh Jammi"}
+]
+keywords = ["data-engineering", "lakehouse", "event streaming & real-time processing"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
