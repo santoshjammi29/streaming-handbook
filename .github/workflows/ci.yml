@@ -1,0 +1,29 @@
+name: CI Streaming Handbook Integrity & Test Suite
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run Integrity Test Suite
+        run: |
+          python scripts/run_tests.py
+
+      - name: Verify CLI Explorer Execution
+        run: |
+          python scripts/interactive_shell.py --list
+          python scripts/interactive_shell.py --modules
+          python scripts/interactive_shell.py --ecosystem
