@@ -1,356 +1,356 @@
 # 🗂️ The Real-Time Event Streaming & Ingestion Handbook — Technical Flashcard Deck (50 Active Recall Questions)
 
-> **Domain**: Event Streaming & Real-Time Processing
-> **Format**: 50 Rapid-Fire Questions & Answers for Technical Mastery
+> **Coverage**: Modules 01 through 10 of The Real-Time Event Streaming Handbook
+> **Focus**: 50 Rapid-Fire Questions & Answers for Kafka, Flink, CDC, and Streaming Lakehouse Architectures
 
 ---
 
-### 1. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #1?
+### 1. What is an Apache Kafka topic?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+A logical category or feed name to which records are published; partitioned, replicated, and ordered append-only log.
 
 ---
 
-### 2. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #2?
+### 2. What is a Kafka partition?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+The fundamental unit of parallelism and storage in Kafka; an ordered, immutable sequence of records continuously appended.
 
 ---
 
-### 3. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #3?
+### 3. How does Kafka determine which partition a record is sent to?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+If a key is specified, it uses `murmur2(key) % num_partitions`; if key is null, it uses sticky partitioning.
 
 ---
 
-### 4. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #4?
+### 4. What is a Kafka consumer group?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+A set of consumers cooperating to consume data from topics, where each partition is assigned to exactly one consumer in the group.
 
 ---
 
-### 5. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #5?
+### 5. What happens during a consumer group rebalance?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Partition assignments are revoked and redistributed among active consumers in the group.
 
 ---
 
-### 6. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #6?
+### 6. Difference between Eager and Cooperative Sticky rebalance protocols?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Eager revokes all partitions and stops consumption during rebalance; Cooperative Sticky only revokes partitions being migrated.
 
 ---
 
-### 7. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #7?
+### 7. What is Kafka consumer lag?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+The difference between the latest produced offset (Log End Offset) and the current committed offset of a consumer group.
 
 ---
 
-### 8. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #8?
+### 8. What are the trade-offs of `acks=0`, `acks=1`, and `acks=all`?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+`acks=0` has lowest latency but high data loss; `acks=1` waits for leader; `acks=all` waits for all in-sync replicas (highest durability).
 
 ---
 
-### 9. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #9?
+### 9. What does `min.insync.replicas` configure in Kafka?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Minimum number of replicas that must acknowledge a write when `acks=all` for the produce request to succeed.
 
 ---
 
-### 10. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #10?
+### 10. What is the Kafka In-Sync Replicas (ISR) list?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+The subset of replica brokers actively catching up with the partition leader within `replica.lag.time.max.ms`.
 
 ---
 
-### 11. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #11?
+### 11. What is Kafka log compaction?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Retention mechanism that retains at least the last known value for each record key within a topic log.
 
 ---
 
-### 12. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #12?
+### 12. Difference between log compaction and log deletion?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Deletion drops segments older than `retention.ms` or exceeding `retention.bytes`; compaction keeps the latest value per key.
 
 ---
 
-### 13. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #13?
+### 13. What is an Apache Flink JobManager?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Coordinates distributed execution: schedules tasks, coordinates checkpoints, handles failure recovery, and manages metadata.
 
 ---
 
-### 14. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #14?
+### 14. What is an Apache Flink TaskManager?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Executes operator tasks in Task Slots and buffers and exchanges data streams between operators.
 
 ---
 
-### 15. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #15?
+### 15. What is a Task Slot in Flink?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+The fixed unit of resource allocation within a TaskManager, sharing JVM memory but isolating task threads.
 
 ---
 
-### 16. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #16?
+### 16. What is event time vs processing time vs ingestion time?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Event time is when the event occurred at source; ingestion time is when it entered Kafka/Flink; processing time is local machine clock time.
 
 ---
 
-### 17. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #17?
+### 17. What is a Watermark in Apache Flink?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+A special control record that flows through the stream asserting that no events with timestamps earlier than `t` will arrive.
 
 ---
 
-### 18. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #18?
+### 18. How do bounded out-of-orderness watermarks handle late events?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Emit watermarks lagging behind the max observed event timestamp by a fixed delay `t_delay` (e.g. 5 seconds).
 
 ---
 
-### 19. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #19?
+### 19. What is allowed lateness in Flink windowing?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Specifies an extra grace period during which late elements that arrive after watermark passage still trigger window updates.
 
 ---
 
-### 20. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #20?
+### 20. Difference between tumbling, sliding, and session windows?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Tumbling has fixed size and non-overlapping; sliding has fixed size with overlapping slide interval; session closes after gap of inactivity.
 
 ---
 
-### 21. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #21?
+### 21. What is a state backend in Apache Flink?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Determines where and how operator state is stored: `HashMapStateBackend` (heap memory) vs `EmbeddedRocksDBStateBackend` (out-of-core disk).
 
 ---
 
-### 22. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #22?
+### 22. When should you choose RocksDB state backend over HashMap?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+When state exceeds TaskManager JVM heap space (e.g. hundreds of gigabytes/terabytes of state) or when incremental checkpointing is required.
 
 ---
 
-### 23. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #23?
+### 23. How do incremental checkpoints work with RocksDB in Flink?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Uploads only newly created SST files generated by RocksDB compactions rather than snapshotting the full state directory.
 
 ---
 
-### 24. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #24?
+### 24. What is the Chandy-Lamport algorithm used for in stream processing?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Distributed snapshotting algorithm that captures a globally consistent state across distributed nodes without stopping execution.
 
 ---
 
-### 25. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #25?
+### 25. What is Exactly-Once Semantics (EOS) in stream processing?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Guarantees that each incoming event affects final state and sink output exactly once, even in the event of failure.
 
 ---
 
-### 26. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #26?
+### 26. How does the Two-Phase Commit (2PC) sink work in Flink?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Pre-commits transactions during checkpointing, and permanently commits external database transactions only after checkpoint completion.
 
 ---
 
-### 27. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #27?
+### 27. What is Change Data Capture (CDC)?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Technology that identifies and captures real-time row-level changes (INSERT, UPDATE, DELETE) committed to a database log.
 
 ---
 
-### 28. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #28?
+### 28. Difference between log-based CDC and query-based CDC?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Log-based parses database WAL/binlog with zero query overhead and captures deletes; query-based polls tables, missing deletes and loading source DB.
 
 ---
 
-### 29. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #29?
+### 29. What is Debezium?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Open-source distributed platform for log-based CDC built on Kafka Connect, supporting PostgreSQL, MySQL, SQL Server, and Oracle.
 
 ---
 
-### 30. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #30?
+### 30. What is the PostgreSQL `pgoutput` plugin used by Debezium?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Standard logical decoding plugin in PostgreSQL that decodes WAL changes directly into binary logical replication protocol.
 
 ---
 
-### 31. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #31?
+### 31. What is `REPLICA IDENTITY FULL` in PostgreSQL for CDC?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Configures Postgres to write the entire previous row state to the WAL upon UPDATE/DELETE, enabling capture of old values.
 
 ---
 
-### 32. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #32?
+### 32. What is the Schema Registry in an event streaming architecture?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Centralized repository for managing Avro, JSON Schema, or Protobuf schemas and serving unique schema IDs to producers and consumers.
 
 ---
 
-### 33. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #33?
+### 33. Difference between BACKWARD, FORWARD, and FULL schema compatibility?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+BACKWARD allows consumers with new schema to read old data; FORWARD allows old consumers to read new data; FULL requires both.
 
 ---
 
-### 34. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #34?
+### 34. What is backpressure in stream processing and how is it detected?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+When downstream operators cannot process records as fast as upstream sends them; detected via high credit wait times or full output buffers.
 
 ---
 
-### 35. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #35?
+### 35. How does Apache Kafka achieve zero-copy data transfer?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Uses Linux `sendfile()` system call to transfer bytes directly from OS page cache to network socket without copying into user space.
 
 ---
 
-### 36. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #36?
+### 36. What is Kafka MirrorMaker 2 (MM2)?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Kafka Connect-based multi-cluster replication engine that replicates topics, consumer offsets, and ACLs across data centers.
 
 ---
 
-### 37. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #37?
+### 37. Difference between active-active and active-passive Kafka multi-cluster architectures?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Active-passive replicates to a hot standby in one direction; active-active allows dual writes with bidirectional replication and cycle detection.
 
 ---
 
-### 38. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #38?
+### 38. What is a Dead Letter Queue (DLQ)?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+A dedicated queue/topic where unparseable, malformed, or poisoned messages are routed after exhausting retry policies.
 
 ---
 
-### 39. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #39?
+### 39. What is exponential backoff with jitter in streaming retries?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Multiplies retry interval exponentially while adding random noise to avoid the thundering herd problem against downstream dependencies.
 
 ---
 
-### 40. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #40?
+### 40. How does Spark Structured Streaming achieve end-to-end exactly-once?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Combines replayable sources (Kafka offsets), deterministic micro-batches with write-ahead logs, and idempotent or transactional sinks (Delta Lake).
 
 ---
 
-### 41. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #41?
+### 41. What is the trigger interval in Spark Structured Streaming (`availableNow`, `processingTime`, `continuous`)?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+`availableNow` processes all pending data like a batch; `processingTime` runs micro-batches at intervals; `continuous` runs low-latency epoch streaming.
 
 ---
 
-### 42. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #42?
+### 42. What is Delta Lake streaming sink with Auto Loader?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Efficient incremental ingestion that discovers and ingests new cloud storage files into Delta tables with exactly-once guarantees.
 
 ---
 
-### 43. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #43?
+### 43. What is the `checkpointLocation` in Spark Structured Streaming?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Directory on cloud object storage storing consumer offsets, commit logs, and state store snapshots for crash recovery.
 
 ---
 
-### 44. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #44?
+### 44. What happens if you delete the `checkpointLocation` of a streaming query?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+State is lost, offset tracking resets (potentially reprocessing or missing records), and exactly-once guarantees are broken.
 
 ---
 
-### 45. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #45?
+### 45. What is state TTL (Time-To-Live) in Apache Flink stateful operations?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Automatically evicts state entries after a configured duration to prevent unbounded disk/memory growth in long-running jobs.
 
 ---
 
-### 46. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #46?
+### 46. What is the Broadcast State pattern in Apache Flink?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Broadcasts dynamic rules/configurations to all parallel task instances to be evaluated against non-broadcast high-throughput data streams.
 
 ---
 
-### 47. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #47?
+### 47. How do you handle partition skew in an Apache Kafka topic?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Use composite keys, add salt to hot keys, or re-partition high-cardinality attributes across a broader key space.
 
 ---
 
-### 48. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #48?
+### 48. What is the purpose of Kafka controller and KRaft (Kafka Raft)?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Manages metadata and partition leader elections; KRaft replaces ZooKeeper with an internal Raft consensus quorum.
 
 ---
 
-### 49. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #49?
+### 49. How do you size Kafka heap memory vs OS page cache?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Allocate modest JVM heap (6-8 GB) to avoid long GC pauses; dedicate 70%+ of physical RAM to the OS page cache for lightning reads.
 
 ---
 
-### 50. What is the primary operational consideration for Event Streaming & Real-Time Processing concept #50?
+### 50. What is the End-to-End Latency SLA breakdown in modern event pipelines?
 
 **Answer:**  
-Enforce deterministic execution, bounded resource allocation, idempotent state commits, and active monitoring of consumer latency.
+Broker ingest latency (<5ms) + serialization/deserialization (<2ms) + Flink operator compute (<10ms) + Delta Lake commit (<500ms).
 
 ---

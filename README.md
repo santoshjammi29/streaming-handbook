@@ -38,11 +38,80 @@ flowchart LR
 
 ---
 
-## 🖼️ Whiteboard Blueprints
+## 🖼️ Master Whiteboard Architecture Blueprints
 
-The repository includes **52 publication-grade architectural whiteboard blueprints** mirrored under `assets/whiteboards/` and cataloged in [docs/whiteboard_diagrams/README.md](docs/whiteboard_diagrams/README.md).
+The repository includes **52 publication-grade architectural whiteboard blueprints** mirrored under [`assets/whiteboards/`](assets/whiteboards) and cataloged with comprehensive multi-persona breakdowns, failure modes, and engine internals in [`docs/whiteboard_diagrams/README.md`](docs/whiteboard_diagrams/README.md).
 
----
+### 📐 Visual Blueprints Showcase
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="docs/whiteboard_diagrams/README.md#kafka-event-streaming-pipeline">
+        <img src="assets/whiteboards/kafka_event_streaming_pipeline.webp" alt="Real-Time Event Streaming & Kafka Architecture" width="100%" />
+      </a>
+      <br><strong>Real-Time Event Streaming & Kafka Architecture</strong><br>
+      <em>Distributed commit log, partition replication, consumer group rebalancing, and consumer lag.</em>
+    </td>
+    <td width="50%" valign="top">
+      <a href="docs/whiteboard_diagrams/README.md#spark-streaming-state-store">
+        <img src="assets/whiteboards/spark_streaming_state_store.webp" alt="Spark Structured Streaming State Store & Watermarking Mechanics" width="100%" />
+      </a>
+      <br><strong>Spark Structured Streaming State Store & Watermarking Mechanics</strong><br>
+      <em>RocksDB state store, event-time watermarking, and incremental state commit checkpoints.</em>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="docs/whiteboard_diagrams/README.md#cdc-debezium-lakehouse-pipeline">
+        <img src="assets/whiteboards/cdc_debezium_lakehouse_pipeline.webp" alt="Real-Time Change Data Capture (CDC) Architecture" width="100%" />
+      </a>
+      <br><strong>Real-Time Change Data Capture (CDC) Architecture</strong><br>
+      <em>Log-based CDC using Debezium, Kafka Connect, and streaming ingestion into Bronze Delta.</em>
+    </td>
+    <td width="50%" valign="top">
+      <a href="docs/whiteboard_diagrams/README.md#streaming-dlq-recovery-flow">
+        <img src="assets/whiteboards/streaming_dlq_recovery_flow_architecture.webp" alt="Stateful Streaming Failure Recovery & Dead-Letter Queue (DLQ) Remediation" width="100%" />
+      </a>
+      <br><strong>Stateful Streaming Failure Recovery & Dead-Letter Queue (DLQ) Remediation</strong><br>
+      <em>Poison pill isolation, exponential backoff retries, and quarantine routing flows.</em>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="docs/whiteboard_diagrams/README.md#lakehouse-ingestion-autoloader">
+        <img src="assets/whiteboards/lakehouse_ingestion_autoloader_architecture.webp" alt="End-to-End Batch & Incremental Lakehouse Ingestion" width="100%" />
+      </a>
+      <br><strong>End-to-End Batch & Incremental Lakehouse Ingestion</strong><br>
+      <em>Cloud storage file notification, schema evolution, and Auto Loader micro-batch ingestion.</em>
+    </td>
+    <td width="50%" valign="top">
+      <a href="docs/whiteboard_diagrams/README.md#distributed-systems-resilience-architecture">
+        <img src="assets/whiteboards/distributed_systems_resilience_architecture.webp" alt="Distributed Systems Design: High-Throughput & Resilient Architecture" width="100%" />
+      </a>
+      <br><strong>Distributed Systems Design: High-Throughput & Resilient Architecture</strong><br>
+      <em>Circuit breaking, rate limiting, connection pooling, and resilient RPC topology.</em>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="docs/whiteboard_diagrams/README.md#data-ingestion-strategy-matrix">
+        <img src="assets/whiteboards/data_ingestion_strategy_matrix_architecture.webp" alt="Enterprise Data Movement & Replication Strategy Decision Flow" width="100%" />
+      </a>
+      <br><strong>Enterprise Data Movement & Replication Strategy Decision Flow</strong><br>
+      <em>Decision tree for batch vs micro-batch vs continuous streaming replication.</em>
+    </td>
+    <td width="50%" valign="top">
+      <a href="docs/whiteboard_diagrams/README.md#lakehouse-acid-concurrency">
+        <img src="assets/whiteboards/lakehouse_acid_concurrency.webp" alt="Lakehouse ACID Concurrency & Write Conflict Resolution Matrix" width="100%" />
+      </a>
+      <br><strong>Lakehouse ACID Concurrency & Write Conflict Resolution Matrix</strong><br>
+      <em>Two-phase commit, transactional sinks, and write conflict serialization.</em>
+    </td>
+  </tr>
+</table>
+
+> 🔍 **Explore all 52 blueprints with 5-persona breakdowns, failure modes, and engine internals in [docs/whiteboard_diagrams/README.md](docs/whiteboard_diagrams/README.md)**.
 
 ## 💻 Interactive CLI Explorer
 

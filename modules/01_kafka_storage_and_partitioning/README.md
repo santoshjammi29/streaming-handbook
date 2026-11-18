@@ -1,5 +1,11 @@
 # Module 01: Kafka Storage Internals, Log Segments & Zero-Copy I/O
 
+
+![Real-Time Event Streaming & Kafka Architecture](../../assets/whiteboards/kafka_event_streaming_pipeline.webp)
+> *Architectural Blueprint: [Real-Time Event Streaming & Kafka Architecture](../../docs/whiteboard_diagrams/README.md#kafka-event-streaming-pipeline). View full multi-persona breakdown and engine mechanisms in the master index.*
+
+
+
 ## 1. Physical Storage Architecture
 Kafka partitions are organized into sequential disk segments:
 - `.log`: Raw binary messages written sequentially.

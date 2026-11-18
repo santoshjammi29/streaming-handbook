@@ -1,5 +1,15 @@
 # 🏛️ Architecture: Flink Distributed Runtime & Asynchronous Barrier Snapshots
 
+
+![Spark Structured Streaming State Store & Watermarking Mechanics](../assets/whiteboards/spark_streaming_state_store.webp)
+> *Architectural Blueprint: [Spark Structured Streaming State Store & Watermarking Mechanics](../docs/whiteboard_diagrams/README.md#spark-streaming-state-store). View full multi-persona breakdown and engine mechanisms in the master index.*
+
+
+![Distributed Systems Design: High-Throughput & Resilient Architecture](../assets/whiteboards/distributed_systems_resilience_architecture.webp)
+> *Architectural Blueprint: [Distributed Systems Design: High-Throughput & Resilient Architecture](../docs/whiteboard_diagrams/README.md#distributed-systems-resilience-architecture). View full multi-persona breakdown and engine mechanisms in the master index.*
+
+
+
 > **Domain**: Event Streaming & Real-Time Processing  
 > **Target Audience**: Senior Engineers, Data Architects, Platform Leads  
 > **Overview**: Chandy-Lamport checkpointing, stream alignment, RocksDB state backends, and WAL sinks.
