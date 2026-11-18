@@ -1,0 +1,14 @@
+{
+  "type": "record",
+  "name": "OrderEvent",
+  "namespace": "com.enterprise.streaming.events",
+  "doc": "Transactional order event with backward compatibility guarantees",
+  "fields": [
+    {"name": "order_id", "type": "string", "doc": "Unique order identifier"},
+    {"name": "customer_id", "type": "string", "doc": "Customer foreign key"},
+    {"name": "order_amount_usd", "type": "double", "doc": "Total dollar amount"},
+    {"name": "status", "type": "string", "doc": "Order state lifecycle"},
+    {"name": "event_timestamp_ms", "type": "long", "doc": "Epoch millisecond timestamp"},
+    {"name": "discount_code", "type": ["null", "string"], "default": null, "doc": "Optional promotional code"}
+  ]
+}

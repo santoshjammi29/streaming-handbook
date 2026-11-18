@@ -7,16 +7,33 @@ import sys
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+MODULES_DIR = BASE_DIR / "modules"
 ARCH_DIR = BASE_DIR / "architectures"
 RUNBOOKS_DIR = BASE_DIR / "runbooks"
 INTERVIEW_DIR = BASE_DIR / "interview"
 
 def list_all():
-    print("\n📚 The Real-Time Event Streaming & Ingestion Handbook: Architecture & Incident Catalog\n" + "=" * 80)
+    print("\n📚 The Real-Time Event Streaming & Ingestion Handbook: Complete Catalog\n" + "=" * 80)
+    if MODULES_DIR.exists():
+        print("\n📦 Production Curriculum Modules:")
+        for m in sorted([d for d in MODULES_DIR.iterdir() if d.is_dir()]):
+            print(f"   📦 {m.name}")
     for p, title in [(ARCH_DIR, "Deep-Dive Architectures"), (RUNBOOKS_DIR, "Production Incident Runbooks"), (INTERVIEW_DIR, "Interview Guides")]:
         print(f"\n📂 {title}:")
         for f in sorted(list(p.glob("*.md"))):
             print(f"   ⚡ {f.name}")
+    print("\n" + "=" * 80)
+
+def list_modules():
+    print("\n📦 Production Curriculum Modules:\n" + "=" * 80)
+    if MODULES_DIR.exists():
+        for m in sorted([d for d in MODULES_DIR.iterdir() if d.is_dir()]):
+            readme = m / "README.md"
+            title = ""
+            if readme.exists():
+                lines = readme.read_text(encoding="utf-8").splitlines()
+                title = lines[0].replace("#", "").strip() if lines else ""
+            print(f"   📦 {m.name:45} | {title}")
     print("\n" + "=" * 80)
 
 def list_runbooks():
@@ -54,49 +71,52 @@ Sister Repositories:
 ================================================================================
 """)
 
-def find_file(query: str):
-    clean_q = query.lower().replace(" ", "_").replace("-", "_")
-    for search_dir in [ARCH_DIR, RUNBOOKS_DIR, INTERVIEW_DIR]:
-        for doc in search_dir.glob("*.md"):
-            if clean_q in doc.name.lower() or query.lower() in doc.read_text(encoding="utf-8").lower():
-                return doc
-    return None
+def show_doc(path: Path):
+    if not path.exists():
+        print(f"Error: {path} not found.")
+        return
+    print("\n" + "=" * 80)
+    print(f"📄 Displaying: {path.name}")
+    print("=" * 80 + "\n")
+    print(path.read_text(encoding="utf-8"))
+    print("\n" + "=" * 80)
 
 def main():
-    if len(sys.argv) < 2 or sys.argv[1] in ("-h", "--help"):
-        print("Usage: python scripts/interactive_shell.py <query>")
-        print("       python scripts/interactive_shell.py --list")
-        print("       python scripts/interactive_shell.py --runbooks")
-        print("       python scripts/interactive_shell.py --architectures")
-        print("       python scripts/interactive_shell.py --interview")
-        print("       python scripts/interactive_shell.py --ecosystem")
+    if len(sys.argv) < 2 or "--help" in sys.argv or "-h" in sys.argv:
+        print("""
+Usage: python scripts/interactive_shell.py [COMMAND]
+
+Commands:
+  --list             List all modules, architectures, runbooks, and interview tiers
+  --modules          List all 10 production curriculum modules
+  --architectures    List deep-dive architectural specifications
+  --runbooks         List production incident triage runbooks
+  --interview        List 4-tier progressive interview guides and flashcard deck
+  --ecosystem        Show cross-repository deep links and platform URLs
+  --view <file>      Display a specific markdown document in terminal
+""")
         sys.exit(0)
 
     arg = sys.argv[1]
     if arg == "--list":
         list_all()
-        sys.exit(0)
-    elif arg == "--runbooks":
-        list_runbooks()
-        sys.exit(0)
+    elif arg == "--modules":
+        list_modules()
     elif arg == "--architectures":
         list_architectures()
-        sys.exit(0)
+    elif arg == "--runbooks":
+        list_runbooks()
     elif arg == "--interview":
         list_interviews()
-        sys.exit(0)
     elif arg == "--ecosystem":
         list_ecosystem()
-        sys.exit(0)
-
-    match = find_file(arg)
-    if not match:
-        print(f"❌ No matching document found for: '{arg}'")
-        sys.exit(1)
-
-    print(f"\n📖 Found: {match.name}\n" + "=" * 80)
-    print(match.read_text(encoding="utf-8"))
-    print("=" * 80)
+    elif arg == "--view" and len(sys.argv) > 2:
+        target = Path(sys.argv[2])
+        if not target.is_absolute():
+            target = BASE_DIR / target
+        show_doc(target)
+    else:
+        print(f"Unknown argument: {arg}. Use --help for options.")
 
 if __name__ == "__main__":
     main()

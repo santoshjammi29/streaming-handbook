@@ -62,6 +62,23 @@ python scripts/run_tests.py
 
 ---
 
+## 📦 Production Curriculum Modules
+
+| Module | Title & Focus | Key Deliverables & Code |
+| :---: | :--- | :--- |
+| **01** | **[Kafka Storage Internals & Zero-Copy I/O](modules/01_kafka_storage_and_partitioning/README.md)** | Commit log segments (`.log`, `.index`, `.timeindex`), Linux `sendfile()` OS page cache, `server.properties` |
+| **02** | **[Resilient Producers & Cooperative Consumers](modules/02_producers_consumers_and_consumer_groups/README.md)** | Idempotent producer (`acks=all`), sequence numbers, cooperative sticky rebalance, `producer_resilient.py` |
+| **03** | **[Schema Registry & Binary Avro Serialization](modules/03_schema_registry_and_evolution/README.md)** | 5-byte wire framing, magic byte (`0x00`), backward/forward compatibility rules, `order_event.avsc` |
+| **04** | **[Apache Flink Runtime & Chandy-Lamport](modules/04_flink_distributed_runtime/README.md)** | JobManager, TaskManager slots, streaming dataflow graphs, distributed barrier checkpointing |
+| **05** | **[State Management & RocksDB Tuning](modules/05_state_management_and_rocksdb/README.md)** | ValueState, ListState, MapState, RocksDB off-heap memory allocation, state TTL, `stateful_dedup.py` |
+| **06** | **[Event Time, Watermarks & Side Outputs](modules/06_event_time_watermarks_and_lateness/README.md)** | Bounded-out-of-orderness watermarks, late arriving data handling, dead-letter side outputs |
+| **07** | **[Streaming Window Aggregations](modules/07_streaming_window_aggregations/README.md)** | Tumbling, sliding, session, and over windows; incremental aggregate vs full process window |
+| **08** | **[CDC Log Mining & Debezium Connectors](modules/08_cdc_log_mining_and_debezium/README.md)** | Transactional log mining, Postgres `pgoutput` WAL parsing, MySQL binlogs, schema drift handling |
+| **09** | **[End-to-End Exactly-Once Processing](modules/09_end_to_end_exactly_once/README.md)** | Two-Phase Commit Protocol (`TwoPhaseCommitSinkFunction`), idempotent transactional sinks |
+| **10** | **[High-Throughput Stream-to-Lakehouse Sinks](modules/10_stream_to_lakehouse_sinks/README.md)** | PySpark Structured Streaming into Delta Lake / Iceberg, RocksDB state provider, `stream_to_delta.py` |
+
+---
+
 ## 🏛️ Architectural Deep Dives
 
 Four production-tested architectural specifications located under `architectures/`:

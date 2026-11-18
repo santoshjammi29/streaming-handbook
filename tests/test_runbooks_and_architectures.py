@@ -55,3 +55,13 @@ def test_whiteboard_blueprints_integrity(base_dir):
     content = docs_readme.read_text(encoding="utf-8")
     assert "52" in content
     assert "assets/whiteboards" in content
+def test_all_ten_modules_present(base_dir):
+    modules_dir = base_dir / "modules"
+    assert modules_dir.exists() and modules_dir.is_dir()
+    subdirs = sorted([d for d in modules_dir.iterdir() if d.is_dir()])
+    assert len(subdirs) == 10, f"Expected 10 modules, found {len(subdirs)}"
+    for d in subdirs:
+        readme = d / "README.md"
+        assert readme.exists(), f"Module {d.name} missing README.md"
+        content = readme.read_text(encoding="utf-8")
+        assert len(content) > 200, f"Module {d.name} README too short"
