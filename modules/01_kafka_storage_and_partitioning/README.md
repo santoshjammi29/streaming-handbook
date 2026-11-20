@@ -1,3 +1,11 @@
+> 🧭 **Modern Data Engineering Ecosystem Navigation**
+> - 📘 **Architecture & Concept:** [System Design — Real-Time Event-Driven Lakehouse](https://github.com/santoshjammi29/data-system-design-handbook/tree/main/modules/06_realtime_event_driven_lakehouse)
+> - 💻 **Hands-On Recipe:** [Streaming Handbook — Module 01: Kafka Storage & Partitioning](https://github.com/santoshjammi29/streaming-handbook/tree/main/modules/01_kafka_storage_and_partitioning) *(You are here)*
+> - 🔬 **Empirical Lab:** [Databricks Blueprints — Project 2: Real-Time Fraud Detection](https://github.com/santoshjammi29/azure-databricks-project-blueprints/tree/main/src/project2_realtime_fraud)
+> - 🚨 **Incident Runbook:** [Streaming Handbook Runbooks](https://github.com/santoshjammi29/streaming-handbook/tree/main/runbooks)
+> - 🎯 **Interview Defense:** [Interview Handbook — Pillar 16: Apache Flink Streaming](https://github.com/santoshjammi29/data-engineering-interview-handbook/blob/main/pillars/16_apache_flink_streaming.md)
+> - 🌐 **Interactive Web Practice:** [Practice on moderndataengineer.uk](https://moderndataengineer.uk/practice/streaming?topic=kafka-partitioning)
+
 # Module 01: Kafka Storage Internals, Log Segments & Zero-Copy I/O
 
 
