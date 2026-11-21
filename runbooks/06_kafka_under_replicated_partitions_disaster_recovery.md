@@ -1,8 +1,9 @@
-# 🚨 Production Runbook: Kafka Under-Replicated Partitions & Broker Failure Recovery
+# 🚨 Production Runbook 06: Kafka Under-Replicated Partitions (URP) Disaster Recovery
 
-> **Severity**: `SEV-1`  
-> **Domain**: Event Streaming & Real-Time Processing  
-> **Key Focus**: Recover offline replicas, resolve leader election failures, and rebalance partition replicas.
+> **Incident Severity**: `SEV-1`  
+> **Domain**: Apache Kafka Cluster Infrastructure  
+> **Target Systems**: Kafka Brokers (KRaft / ZooKeeper), OS Disk Subsystems, Network Fabric  
+> **Objective**: Recover degraded brokers, rebalance under-replicated partitions safely without saturating inter-broker network bandwidth.
 
 ---
 
@@ -10,58 +11,72 @@
 
 ```mermaid
 flowchart TD
-    Alert["🚨 Kafka Under-Replicated Partitions & Broker Failure Recovery (SEV-1)"] --> TriageCategory{"Identify Root Cause Category"}
+    Alert["SEV-1 Alert: Kafka Under-Replicated Partitions > 0"] --> IdentifyBrokers["Step 1: Identify Offline or Degraded Brokers"]
+    IdentifyBrokers --> BrokerState{"Broker Health Status?"}
     
-    TriageCategory -->|"Configuration or Schema Drift"| ConfigTriage["Inspect Pipeline Schema & Type Contracts"]
-    TriageCategory -->|"Resource Starvation or OOM"| ResourceTriage["Inspect Memory Pools, Off-Heap State & GC"]
-    TriageCategory -->|"Network or Storage Timeout"| NetworkTriage["Inspect Downstream Latency & Deadlocks"]
-
-    ConfigTriage --> FixConfig["Remediation: Pin Schema Contracts & Apply Reversion"]
-    ResourceTriage --> FixResource["Remediation: Increase Worker Memory & Throttle Batch Slices"]
-    NetworkTriage --> FixNetwork["Remediation: Trigger Failover & Backoff Retry Strategy"]
+    BrokerState -->|"Broker Down / Hardware Failure"| RestartBroker["Restart Broker or Provision Replacement Node"]
+    BrokerState -->|"Broker Online / Disk I/O Bottleneck"| DiskBottleneck["Disk Saturation / Slow Follower"]
+    
+    RestartBroker --> PartitionRebalance["Generate Throttled Partition Reassignment Plan"]
+    DiskBottleneck --> ThrottleReplication["Apply Bandwidth Throttle on Inter-Broker Replication"]
+    PartitionRebalance --> ExecuteRebalance["Execute kafka-reassign-partitions.sh"]
+    ExecuteRebalance --> VerifyISR["Verify Partitions Rejoin In-Sync Replicas (ISR)"]
 ```
 
 ---
 
 ## 2. Immediate Diagnostic Procedures (First 5 Minutes)
 
-### Step 1: Query Error Signatures and Pipeline Metrics
-Run the following inspection commands to isolate the fault:
+### Step 1: Identify Under-Replicated Partitions and Degraded Topics
 ```bash
-# Check pipeline task status and recent error traces
-echo "Inspecting error status for pipeline..."
-grep -E "ERROR|CRITICAL|Exception|Timeout" /var/log/pipeline.log | tail -n 25
+# Query cluster for all topics with under-replicated partitions
+kafka-topics.sh --bootstrap-server "$KAFKA_BOOTSTRAP_SERVERS"   --describe --under-replicated-partitions
 ```
 
-### Step 2: Inspect Worker and State Health
-Check memory, disk saturation, and open file descriptors:
+### Step 2: Check Broker Disk Utilization and I/O Wait
 ```bash
-# Verify worker container resource utilization
-ps aux --sort=-%mem | head -n 10
+# Inspect disk space across data log directories on all brokers
+ansible kafka_brokers -m shell -a "df -h /var/lib/kafka/data"
 ```
 
 ---
 
-## 3. Root Cause Analysis & Detailed Remediation
+## 3. Root Cause Analysis & Production Remediation
 
 ### Primary Root Cause
-In production systems, this incident typically originates from sudden traffic surges, upstream breaking schema mutations, or resource limits being breached without backpressure.
+Partitions become under-replicated when follower replicas fall behind the leader's High Watermark (HW) due to broker hardware failure, disk I/O saturation, or network packet drop. If unthrottled reassignment is triggered, massive replica fetch traffic saturates broker network links, causing healthy partitions to fail.
 
-### Remediation & Recovery Strategy:
-1. **Apply Emergency Throttle**: Restrict incoming batch size or pause non-critical consumers.
-2. **Apply Hotfix Configuration**:
-   ```python
-   # Emergency throttle configuration
-   throttle_rate_per_sec = 5000
-   retry_backoff_multiplier = 2.0
-   max_retry_limit = 5
-   ```
-3. **Execute Recovery Step**: Re-run the validation test suite and verify consumer convergence.
+### Production Remediation: Safe Throttled Reassignment
+
+#### Step 1: Create Topics JSON for Reassignment Plan
+```json
+{
+  "topics": [
+    {"topic": "transactions.core.v1"},
+    {"topic": "user.events.v1"}
+  ],
+  "version": 1
+}
+```
+
+#### Step 2: Generate and Execute Throttled Reassignment
+```bash
+# 1. Generate reassignment plan across surviving brokers (e.g. brokers 1, 2, 3)
+kafka-reassign-partitions.sh --bootstrap-server "$KAFKA_BOOTSTRAP_SERVERS"   --topics-to-move-json-file topics.json   --broker-list "1,2,3"   --generate > reassignment.json
+
+# 2. Execute plan with strict bandwidth throttle (50 MB/s = 50000000 bytes/sec)
+kafka-reassign-partitions.sh --bootstrap-server "$KAFKA_BOOTSTRAP_SERVERS"   --reassignment-json-file reassignment.json   --execute   --throttle 50000000
+
+# 3. Monitor reassignment progress until completed
+kafka-reassign-partitions.sh --bootstrap-server "$KAFKA_BOOTSTRAP_SERVERS"   --reassignment-json-file reassignment.json   --verify
+
+# 4. CRITICAL: Remove bandwidth throttle once reassignment finishes
+kafka-reassign-partitions.sh --bootstrap-server "$KAFKA_BOOTSTRAP_SERVERS"   --reassignment-json-file reassignment.json   --verify
+```
 
 ---
 
-## 4. Verification & Prevention Checklist
-
-- [ ] Pipeline metrics return to baseline with 0 active error alerts.
-- [ ] Processing latency conforms to standard production SLAs.
-- [ ] Postmortem root cause documented and shared with architecture leads.
+## 4. Verification & Prevention
+- [ ] Confirm `kafka-topics.sh --describe --under-replicated-partitions` returns zero output.
+- [ ] Verify Prometheus metric `kafka_server_replicamanager_underreplicatedpartitions == 0`.
+- [ ] Set `min.insync.replicas=2` and `replication.factor=3` on all mission-critical topics.

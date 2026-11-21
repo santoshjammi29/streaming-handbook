@@ -1,8 +1,9 @@
-# 🚨 Production Runbook: Flink RocksDB Off-Heap Native Memory Leak Triage
+# 🚨 Production Runbook 05: RocksDB State Store Off-Heap Memory Leak Triage
 
-> **Severity**: `SEV-2`  
-> **Domain**: Event Streaming & Real-Time Processing  
-> **Key Focus**: Diagnose block cache over-allocation, write buffer spill, and container OS OOM kills.
+> **Incident Severity**: `SEV-1`  
+> **Domain**: Spark Structured Streaming & Stateful Processing  
+> **Target Systems**: Spark Driver & Executors (Databricks / Kubernetes), RocksDB Native Engine  
+> **Objective**: Diagnose native C++ memory leaks in RocksDB state store, prevent Executor OOM (Exit code 137), and tune memory bounds.
 
 ---
 
@@ -10,58 +11,74 @@
 
 ```mermaid
 flowchart TD
-    Alert["🚨 Flink RocksDB Off-Heap Native Memory Leak Triage (SEV-2)"] --> TriageCategory{"Identify Root Cause Category"}
+    Alert["SEV-1 Alert: Spark Executor Killed (Exit Code 137 / OOMKilled)"] --> CheckLogs["Step 1: Inspect Executor Memory Logs (Off-Heap vs On-Heap)"]
+    CheckLogs --> MemoryCategory{"Where is Memory Growing?"}
     
-    TriageCategory -->|"Configuration or Schema Drift"| ConfigTriage["Inspect Pipeline Schema & Type Contracts"]
-    TriageCategory -->|"Resource Starvation or OOM"| ResourceTriage["Inspect Memory Pools, Off-Heap State & GC"]
-    TriageCategory -->|"Network or Storage Timeout"| NetworkTriage["Inspect Downstream Latency & Deadlocks"]
-
-    ConfigTriage --> FixConfig["Remediation: Pin Schema Contracts & Apply Reversion"]
-    ResourceTriage --> FixResource["Remediation: Increase Worker Memory & Throttle Batch Slices"]
-    NetworkTriage --> FixNetwork["Remediation: Trigger Failover & Backoff Retry Strategy"]
+    MemoryCategory -->|"JVM Heap (java.lang.OutOfMemoryError)"| HeapLeak["Tune Spark Heap & State Watermarking"]
+    MemoryCategory -->|"Native RSS Memory (Container Eviction)"| NativeLeak["RocksDB Native Block Cache & MemTable Unbounded"]
+    
+    NativeLeak --> SetBoundedMemory["Configure RocksDB Memory Bounds in spark.sql.streaming"]
+    SetBoundedMemory --> TuneCompaction["Tune Block Cache Size & MemTable Count"]
+    TuneCompaction --> RestartExecutors["Restart Stream with Memory Caps"]
 ```
 
 ---
 
 ## 2. Immediate Diagnostic Procedures (First 5 Minutes)
 
-### Step 1: Query Error Signatures and Pipeline Metrics
-Run the following inspection commands to isolate the fault:
+### Step 1: Check Kubernetes / YARN Container Kill Signal
 ```bash
-# Check pipeline task status and recent error traces
-echo "Inspecting error status for pipeline..."
-grep -E "ERROR|CRITICAL|Exception|Timeout" /var/log/pipeline.log | tail -n 25
+# Check if container died due to Linux OOM killer (exit code 137)
+kubectl describe pod <spark-executor-pod> | grep -E "OOMKilled|Exit Code"
 ```
 
-### Step 2: Inspect Worker and State Health
-Check memory, disk saturation, and open file descriptors:
+### Step 2: Inspect Native Memory Resident Set Size (RSS)
 ```bash
-# Verify worker container resource utilization
-ps aux --sort=-%mem | head -n 10
+# Verify Executor memory consumption vs request limits
+kubectl top pod <spark-executor-pod>
 ```
 
 ---
 
-## 3. Root Cause Analysis & Detailed Remediation
+## 3. Root Cause Analysis & Production Remediation
 
 ### Primary Root Cause
-In production systems, this incident typically originates from sudden traffic surges, upstream breaking schema mutations, or resource limits being breached without backpressure.
+When using `RocksDBStateStoreProvider`, memory is split between JVM On-Heap and native off-heap C++ memory. If the RocksDB block cache and write buffers (memtables) are left unbounded across hundreds of state partitions, native memory allocations exceed the Kubernetes pod memory limit, triggering the OS OOM Killer (`SIGKILL` 137).
 
-### Remediation & Recovery Strategy:
-1. **Apply Emergency Throttle**: Restrict incoming batch size or pause non-critical consumers.
-2. **Apply Hotfix Configuration**:
-   ```python
-   # Emergency throttle configuration
-   throttle_rate_per_sec = 5000
-   retry_backoff_multiplier = 2.0
-   max_retry_limit = 5
-   ```
-3. **Execute Recovery Step**: Re-run the validation test suite and verify consumer convergence.
+### Production Remediation & Configuration Tuning
+
+#### Phase 1: Enforce Strict RocksDB Memory Bounds
+Set these Spark configurations to cap native off-heap memory per executor:
+```properties
+# Cap RocksDB block cache across all state store instances
+spark.sql.streaming.stateStore.providerClass=org.apache.spark.sql.execution.streaming.state.RocksDBStateStoreProvider
+spark.sql.streaming.stateStore.rocksdb.blockCacheSizeMB=128
+spark.sql.streaming.stateStore.rocksdb.lockAcquireTimeoutMs=60000
+spark.sql.streaming.stateStore.rocksdb.writeBufferSizeMB=32
+spark.sql.streaming.stateStore.rocksdb.maxWriteBufferNumber=3
+spark.sql.streaming.stateStore.rocksdb.compactOnCommit=false
+
+# Allocate container memory overhead for native RocksDB allocations (30-40% of heap)
+spark.executor.memory=8g
+spark.executor.memoryOverhead=4g
+```
+
+#### Phase 2: Watermark State Eviction Verification
+Ensure streaming state is actively evicted rather than growing indefinitely:
+```python
+# Event-time watermarking forces state eviction in stateful joins & aggregations
+stream_df = raw_df     .withWatermark("event_time", "2 hours")     .groupBy(
+        window("event_time", "1 hour", "15 minutes"),
+        col("merchant_id")
+    ).agg(
+        count("transaction_id").alias("tx_count"),
+        sum("amount").alias("total_volume")
+    )
+```
 
 ---
 
-## 4. Verification & Prevention Checklist
-
-- [ ] Pipeline metrics return to baseline with 0 active error alerts.
-- [ ] Processing latency conforms to standard production SLAs.
-- [ ] Postmortem root cause documented and shared with architecture leads.
+## 4. Verification & Prevention
+- [ ] Verify Executor pod RSS memory stabilizes below container limit.
+- [ ] Confirm Spark UI Structured Streaming tab shows steady `memoryUsedBytes` metric.
+- [ ] Set alert on `container_memory_working_set_bytes / container_spec_memory_limit_bytes > 0.85`.
