@@ -1,8 +1,9 @@
-# 🚨 Production Runbook: CDC Schema Drift & Database WAL Disk Exhaustion
+# 🚨 Production Runbook 03: CDC Schema Drift & WAL Disk Exhaustion
 
-> **Severity**: `SEV-1`  
-> **Domain**: Event Streaming & Real-Time Processing  
-> **Key Focus**: Handle replication slot stalls, upstream disk 100% saturation, and schema evolution.
+> **Incident Severity**: `SEV-1`  
+> **Domain**: Change Data Capture (Debezium) & Database Replication  
+> **Target Systems**: PostgreSQL Primary, Debezium Connect Cluster, Kafka Connect, Schema Registry  
+> **Objective**: Drain PostgreSQL WAL bloat before disk fills to 100%, realign Debezium schema history, and restore replication.
 
 ---
 
@@ -10,83 +11,89 @@
 
 ```mermaid
 flowchart TD
-    Alert["🚨 CDC Schema Drift & Database WAL Disk Exhaustion (SEV-1)"] --> TriageCategory{"Identify Root Cause Category"}
+    Alert["SEV-1 Alert: PostgreSQL WAL Disk > 85% & Debezium Lagging"] --> CheckDisk["Step 1: Check Replication Slot Disk Retained in Postgres"]
+    CheckDisk --> SlotState{"Replication Slot Active?"}
     
-    TriageCategory -->|"Configuration or Schema Drift"| ConfigTriage["Inspect Pipeline Schema & Type Contracts"]
-    TriageCategory -->|"Resource Starvation or OOM"| ResourceTriage["Inspect Memory Pools, Off-Heap State & GC"]
-    TriageCategory -->|"Network or Storage Timeout"| NetworkTriage["Inspect Downstream Latency & Deadlocks"]
-
-    ConfigTriage --> FixConfig["Remediation: Pin Schema Contracts & Apply Reversion"]
-    ResourceTriage --> FixResource["Remediation: Increase Worker Memory & Throttle Batch Slices"]
-    NetworkTriage --> FixNetwork["Remediation: Trigger Failover & Backoff Retry Strategy"]
+    SlotState -->|"Active: Lagging"| ThrottleCheck["Debezium is Throttled or Blocked on Kafka"]
+    SlotState -->|"Inactive: Abandoned"| DropSlot["Drop Abandoned Slot Immediately to Reclaim WAL Disk"]
+    
+    ThrottleCheck --> SchemaCheck{"Schema Registry Rejection?"}
+    SchemaCheck -->|Yes| FixSchema["Update Schema Registry Compatibility Mode"]
+    SchemaCheck -->|No| ScaleConnect["Scale Kafka Connect Worker Tasks & Memory"]
 ```
 
 ---
 
 ## 2. Immediate Diagnostic Procedures (First 5 Minutes)
 
-### Step 1: Query Error Signatures and Pipeline Metrics
-Run the following inspection commands to isolate the fault:
-```bash
-# Check pipeline task status and recent error traces
-echo "Inspecting error status for pipeline..."
-grep -E "ERROR|CRITICAL|Exception|Timeout" /var/log/pipeline.log | tail -n 25
+### Step 1: Query PostgreSQL for Replication Slot WAL Lag
+```sql
+SELECT
+    slot_name,
+    plugin,
+    active,
+    pg_size_pretty(pg_wal_lsn_diff(pg_current_wal_lsn(), restart_lsn)) AS wal_backlog_size,
+    pg_size_pretty(pg_wal_lsn_diff(pg_current_wal_lsn(), confirmed_flush_lsn)) AS unconfirmed_wal_size
+FROM pg_replication_slots
+ORDER BY pg_wal_lsn_diff(pg_current_wal_lsn(), restart_lsn) DESC;
 ```
 
-### Step 2: Inspect Worker and State Health
-Check memory, disk saturation, and open file descriptors:
+### Step 2: Check Debezium Connector Task Error Status
 ```bash
-# Verify worker container resource utilization
-ps aux --sort=-%mem | head -n 10
+curl -s "http://kafka-connect:8083/connectors/debezium-postgres-orders/status" | jq '.tasks[] | {id: .id, state: .state, trace: .trace}'
 ```
 
 ---
 
-## 3. Root Cause Analysis & Detailed Remediation
+## 3. Root Cause Analysis & Production Remediation
 
 ### Primary Root Cause
-In production systems, this incident typically originates from sudden traffic surges, upstream breaking schema mutations, or resource limits being breached without backpressure.
+1. **Schema Evolution Deserialization Error**: An upstream `ALTER TABLE` added an unsupported type or broke backwards compatibility in Confluent Schema Registry. Debezium threw an exception and paused WAL consumption.
+2. **WAL Disk Exhaustion**: Because the replication slot remained unconfirmed, PostgreSQL retained all WAL segments until disk usage approached 100%, threatening a full database crash.
 
-### Remediation & Recovery Strategy:
-1. **Apply Emergency Throttle**: Restrict incoming batch size or pause non-critical consumers.
-2. **Apply Hotfix Configuration**:
-   ```python
-   # Emergency throttle configuration
-   throttle_rate_per_sec = 5000
-   retry_backoff_multiplier = 2.0
-   max_retry_limit = 5
-   ```
-3. **Execute Recovery Step**: Re-run the validation test suite and verify consumer convergence.
+### Production Remediation & Configuration Tuning
 
----
-
-## 4. Verification & Prevention Checklist
-
-- [ ] Pipeline metrics return to baseline with 0 active error alerts.
-- [ ] Processing latency conforms to standard production SLAs.
-- [ ] Postmortem root cause documented and shared with architecture leads.
-
-
----
-
-## 5. Delta Change Data Feed & Mosaic AI Vector Sync Stall Triage
-
-### 5.1 Incident Symptoms & Root Cause
-- **Symptoms**: Vector Search queries return stale results ($> 30\text{ minutes}$ old), and Databricks Vector Search console displays `SYNC_IN_PROGRESS: High Lag Observed`.
-- **Root Cause**: Streaming writers generated millions of micro-files in the Delta table, causing the Vector Search CDF scanner to spend excessive time listing files rather than computing embeddings.
-
-### 5.2 Remediation & File Compaction Hotfix
-1. **Compact Small Files in Delta Table**:
-```sql
--- Trigger immediate bin-packing compaction on source table
-OPTIMIZE prod_catalog.security.threat_events_gold;
-
--- Enable auto-compaction for streaming writes
-ALTER TABLE prod_catalog.security.threat_events_gold 
-SET TBLPROPERTIES (
-    'delta.autoOptimize.optimizeWrite' = 'true',
-    'delta.autoOptimize.autoCompact' = 'true'
-);
+#### Phase 1: Set Schema Registry Compatibility & Safe Schema Evolution
+```bash
+# Update Schema Registry compatibility to BACKWARD or FULL_TRANSITIVE
+curl -X PUT -H "Content-Type: application/json"   --data '{"compatibility": "BACKWARD"}'   "http://schema-registry:8081/config/orders_cdc_events-value"
 ```
 
-2. **Restart Vector Search Pipeline**: In Vector Search Console, trigger an on-demand sync cycle to resume stream processing from the latest checkpoint commit.
+#### Phase 2: Production Debezium Connector Configuration
+```json
+{
+  "name": "debezium-postgres-orders",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "tasks.max": "1",
+    "plugin.name": "pgoutput",
+    "database.hostname": "postgres-primary.internal",
+    "database.port": "5432",
+    "database.user": "debezium_cdc",
+    "database.password": "${file:/secrets/db.properties:password}",
+    "database.dbname": "production_db",
+    "database.server.name": "prod_cdc",
+    "table.include.list": "public.orders,public.order_items,public.customers",
+    "tombstones.on.delete": "true",
+    "decimal.handling.mode": "double",
+    "schema.history.internal.kafka.bootstrap.servers": "kafka:9092",
+    "schema.history.internal.kafka.topic": "schema-history.orders",
+    "max.queue.size": "8192",
+    "max.batch.size": "2048",
+    "poll.interval.ms": "500"
+  }
+}
+```
+
+#### Phase 3: Emergency Slot Cleanup (If WAL Disk > 95%)
+```sql
+-- DANGER: Drops replication slot and forces full resync, but prevents database outage
+-- SELECT pg_drop_replication_slot('debezium_orders_slot');
+```
+
+---
+
+## 4. Verification & Prevention
+- [ ] Verify `pg_replication_slots` shows `wal_backlog_size < 1 GB`.
+- [ ] Confirm Kafka Connect task returns `state: RUNNING`.
+- [ ] Configure `max_slot_wal_keep_size = 50GB` in `postgresql.conf` to prevent disk saturation.
