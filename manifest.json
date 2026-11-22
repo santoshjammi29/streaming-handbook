@@ -3,8 +3,8 @@
   "github": "santoshjammi29/streaming-handbook",
   "name": "Streaming Handbook",
   "role": "Distributed event streaming: Kafka 3.9 KRaft, Apache Flink stateful processing, RocksDB, CDC Debezium",
-  "last_synced": "2026-11-21T04:54:58.628982Z",
-  "entry_count": 20,
+  "last_synced": "2026-11-22T07:34:24.145095Z",
+  "entry_count": 21,
   "entries": [
     {
       "id": "streaming-handbook-01_kafka_storage_and_partitioning",
@@ -212,6 +212,16 @@
       "title": "Architecture: 04 Stream To Lakehouse Exactly Once Mechanics",
       "difficulty": "L400",
       "relative_path": "architectures/04_stream_to_lakehouse_exactly_once_mechanics.md",
+      "pillars": [
+        "Real-Time Streaming & Event Architecture"
+      ]
+    },
+    {
+      "id": "streaming-handbook-curriculum-topics",
+      "type": "curriculum_topics_catalog",
+      "title": "Topics Directory: Streaming Handbook",
+      "difficulty": "L200",
+      "relative_path": "topics/README.md",
       "pillars": [
         "Real-Time Streaming & Event Architecture"
       ]

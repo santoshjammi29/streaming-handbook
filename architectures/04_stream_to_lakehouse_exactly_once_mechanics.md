@@ -1,14 +1,10 @@
 # 🏛️ Architecture: Stream-to-Lakehouse Exactly-Once Ingestion
 
-
 ![Stateful Streaming Failure Recovery & Dead-Letter Queue (DLQ) Remediation](../assets/whiteboards/streaming_dlq_recovery_flow_architecture.webp)
 > *Architectural Blueprint: [Stateful Streaming Failure Recovery & Dead-Letter Queue (DLQ) Remediation](../docs/whiteboard_diagrams/README.md#streaming-dlq-recovery-flow). View full multi-persona breakdown and engine mechanisms in the master index.*
 
-
 ![Lakehouse ACID Concurrency & Write Conflict Resolution Matrix](../assets/whiteboards/lakehouse_acid_concurrency.webp)
 > *Architectural Blueprint: [Lakehouse ACID Concurrency & Write Conflict Resolution Matrix](../docs/whiteboard_diagrams/README.md#lakehouse-acid-concurrency). View full multi-persona breakdown and engine mechanisms in the master index.*
-
-
 
 > **Domain**: Event Streaming & Real-Time Processing  
 > **Target Audience**: Senior Engineers, Data Architects, Platform Leads  

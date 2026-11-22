@@ -634,9 +634,9 @@ A resilient CDC architecture must handle upstream DDL alterations (adding column
 
 ### Architecture & Configuration:
 ```
-[Database DDL/DML] -> [Debezium Connector] 
-                   -> [Confluent Schema Registry (Avro/Protobuf)] 
-                   -> [Kafka Compacted Topics] 
+[Database DDL/DML] -> [Debezium Connector]
+                   -> [Confluent Schema Registry (Avro/Protobuf)]
+                   -> [Kafka Compacted Topics]
                    -> [Downstream Stream Processors / DWH]
 ```
 
@@ -687,7 +687,7 @@ High-throughput OLTP workloads (50,000+ writes/second) can exceed the single-thr
 ### Multi-Tiered Optimization Strategy:
 
 ```
-[OLTP Shards] ---> [Dedicated Replication Slots] ---> [Debezium Tasks] 
+[OLTP Shards] ---> [Dedicated Replication Slots] ---> [Debezium Tasks]
               ---> [Kafka Ingestion Buffer (LZ4)]   ---> [Partitioned Kafka Topics]
 ```
 
@@ -737,8 +737,8 @@ In distributed systems, true end-to-end exactly-once delivery is achieved throug
 
 ### Architecture Overview:
 ```
-[Database WAL] -> [Debezium (acks=all)] -> [Compacted Kafka Topic] 
-               -> [Snowpipe / Delta Ingestion] -> [Staging Append-Only Table] 
+[Database WAL] -> [Debezium (acks=all)] -> [Compacted Kafka Topic]
+               -> [Snowpipe / Delta Ingestion] -> [Staging Append-Only Table]
                -> [Idempotent MERGE Engine] -> [Core DWH Dimension/Fact]
 ```
 
@@ -754,10 +754,10 @@ Execute a scheduled or continuous SQL `MERGE` that uses window deduplication and
 ```sql
 MERGE INTO core.dim_orders AS target
 USING (
-    SELECT 
+    SELECT
         id, customer_id, order_status, total_amount, op, lsn,
         ROW_NUMBER() OVER (
-            PARTITION BY id 
+            PARTITION BY id
             ORDER BY lsn DESC, ts_ms DESC
         ) AS row_num
     FROM staging.orders_cdc_staging
@@ -767,7 +767,7 @@ ON target.id = src.id AND src.row_num = 1
 WHEN MATCHED AND src.op = 'd' THEN
     DELETE
 WHEN MATCHED AND src.lsn > target.last_applied_lsn THEN
-    UPDATE SET 
+    UPDATE SET
         target.order_status = src.order_status,
         target.total_amount = src.total_amount,
         target.last_applied_lsn = src.lsn
@@ -803,15 +803,15 @@ Configure an SMT pipeline in the connector JSON that filters out audit records, 
 ```json
 {
   "transforms": "filterInternal,unwrap,reroute",
-  
+
   "transforms.filterInternal.type": "io.debezium.transforms.Filter",
   "transforms.filterInternal.language": "jsr223.groovy",
   "transforms.filterInternal.expression": "value.op != 'd' && !value.after.email.endsWith('@internal-test.com')",
-  
+
   "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
   "transforms.unwrap.drop.tombstones": "false",
   "transforms.unwrap.add.fields": "op,table,lsn",
-  
+
   "transforms.reroute.type": "io.debezium.transforms.ByLogicalTableRouter",
   "transforms.reroute.topic.regex": ".*\.inventory\.(.*)",
   "transforms.reroute.topic.replacement": "curated_cdc_$1"
@@ -846,8 +846,8 @@ Traditional cache-aside patterns suffer from dual-write inconsistencies when an 
 
 ### System Architecture:
 ```
-[Client Writes] -> [Primary RDBMS (Source of Truth)] 
-                -> [WAL Engine] -> [Debezium] -> [Kafka: cdc.products] 
+[Client Writes] -> [Primary RDBMS (Source of Truth)]
+                -> [WAL Engine] -> [Debezium] -> [Kafka: cdc.products]
                 -> [Redis Invalidation Worker] -> [Redis Cluster (DEL / SET)]
 ```
 
@@ -911,8 +911,8 @@ incremental.snapshot.watermarking.strategy=insert_insert
 2. **Chunk Reading via Primary Key**:
    - Debezium selects a chunk using indexed primary key boundaries:
      ```sql
-     SELECT * FROM sales.orders 
-     WHERE id >= 1000000 AND id < 1016384 
+     SELECT * FROM sales.orders
+     WHERE id >= 1000000 AND id < 1016384
      ORDER BY id;
      ```
    - This indexed read uses minimal I/O and zero table locks.
@@ -945,10 +945,10 @@ Aggressive third-party API rate limits (e.g., Shopify's 40 requests/min or Twitt
 
 ### Architecture Overview:
 ```
-[Ingestion Task] ---> [Client Token Bucket (Redis)] 
-                ---> [HTTP Request] 
-                ---> [Header Inspector: 429 / Retry-After] 
-                ---> [Full Jitter Backoff Calculator] 
+[Ingestion Task] ---> [Client Token Bucket (Redis)]
+                ---> [HTTP Request]
+                ---> [Header Inspector: 429 / Retry-After]
+                ---> [Full Jitter Backoff Calculator]
                 ---> [Retry Queue / Circuit Breaker]
 ```
 
@@ -967,7 +967,7 @@ class ResilientApiClient:
     def get_with_backoff(self, endpoint, params=None):
         for attempt in range(self.max_retries):
             resp = self.session.get(f"{self.base_url}/{endpoint}", params=params)
-            
+
             # Inspect remaining rate limit headers preemptively
             remaining = int(resp.headers.get("X-RateLimit-Remaining", 100))
             if remaining < 5:
@@ -986,10 +986,10 @@ class ResilientApiClient:
                     # Full Jitter Formula: sleep = random(0, min(max_backoff, base * 2^attempt))
                     ceiling = min(self.max_backoff, self.base_backoff * (2 ** attempt))
                     sleep_time = random.uniform(0, ceiling)
-                
+
                 time.sleep(sleep_time)
                 continue
-                
+
             resp.raise_for_status() # Fail fast on 4xx client errors (400, 401, 404)
 
         raise TimeoutError("Exhausted maximum retry attempts under API rate limiting.")
@@ -1053,7 +1053,7 @@ class CustomVendorStream(HttpStream, IncrementalMixin):
     def request_headers(self, **kwargs) -> Mapping[str, Any]:
         return {"X-Custom-Auth": self.api_key, "Accept": "application/json"}
 
-    def request_params(self, stream_state: Mapping[str, Any] = None, 
+    def request_params(self, stream_state: Mapping[str, Any] = None,
                        next_page_token: Mapping[str, Any] = None, **kwargs) -> MutableMapping[str, Any]:
         params = {"limit": 100, "modified_since": self._cursor_value}
         if next_page_token:
@@ -1141,11 +1141,11 @@ Comparing webhook-based (push) ingestion with scheduled polling (pull) highlight
 
 ### Webhook Push Ingestion Architecture:
 ```
-[SaaS Provider] ---> [POST Webhook HTTPS] 
-                ---> [API Gateway / Envoy] 
-                ---> [Lambda / Edge Worker (HMAC Verify)] 
-                ---> [Amazon SQS / Kafka Buffer] 
-                ---> [Stream Processor / Micro-Batch Worker] 
+[SaaS Provider] ---> [POST Webhook HTTPS]
+                ---> [API Gateway / Envoy]
+                ---> [Lambda / Edge Worker (HMAC Verify)]
+                ---> [Amazon SQS / Kafka Buffer]
+                ---> [Stream Processor / Micro-Batch Worker]
                 ---> [Bronze Lakehouse]
 ```
 

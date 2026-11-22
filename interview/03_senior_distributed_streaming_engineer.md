@@ -468,7 +468,7 @@ public class EmbeddedInferenceFunction extends RichFlatMapFunction<TransactionEv
     @Override
     public void flatMap(TransactionEvent event, Collector<ScoredFraudEvent> out) throws Exception {
         FeatureVector features = updateAndGetFeatures(event);
-        
+
         // Zero-copy direct buffer allocation for tensor input
         OnnxTensor inputTensor = OnnxTensor.createTensor(env, features.toFloatBuffer(), features.getShape());
         try (OrtSession.Result results = session.run(Collections.singletonMap("input", inputTensor))) {
@@ -580,7 +580,7 @@ Deploying Debezium across multiple data centers (DCs) requires high availability
 ```
 [Data Center 1 (Primary)]                          [Data Center 2 (Secondary)]
 [Primary RDBMS] ---> [Active Debezium Worker]      [Standby RDBMS]
-                   ---> [Kafka Cluster DC1]         
+                   ---> [Kafka Cluster DC1]
                              | (MirrorMaker 2 / Cluster Linking)
                              v
                     [Kafka Cluster DC2] <--- [Standby Debezium Worker (Stopped)]
@@ -733,9 +733,9 @@ Capturing 10M transactions/sec exceeds the limits of single-node replication slo
 
 ### End-to-End Distributed Architecture:
 ```
-[2,048 DB Shards] ---> [Distributed CDC Agent Fleet (K8s)] 
-                  ---> [Regional Kafka Clusters (4,096 Partitions)] 
-                  ---> [Kafka Tiered Storage (S3 / NVMe)] 
+[2,048 DB Shards] ---> [Distributed CDC Agent Fleet (K8s)]
+                  ---> [Regional Kafka Clusters (4,096 Partitions)]
+                  ---> [Kafka Tiered Storage (S3 / NVMe)]
                   ---> [Flink Distributed Join & Route Fleet]
 ```
 
@@ -780,9 +780,9 @@ When a microservice must update its local database and emit an event to Kafka, w
 
 ### System Architecture:
 ```
-[Application Service] ---> [Single ACID Transaction] 
-                      ---> [1. INSERT INTO orders] 
-                      ---> [2. INSERT INTO outbox_events] 
+[Application Service] ---> [Single ACID Transaction]
+                      ---> [1. INSERT INTO orders]
+                      ---> [2. INSERT INTO outbox_events]
                                     |
                             [Database WAL Engine]
                                     |
@@ -852,9 +852,9 @@ Designing a serverless CDC pipeline eliminates the fixed infrastructure overhead
 
 ### Serverless Architecture (AWS Cloud-Native Example):
 ```
-[Amazon Aurora Serverless v2] ---> [Aurora PostgreSQL Logical Replication Plugin] 
-                              ---> [Amazon Kinesis Data Streams / EventBridge] 
-                              ---> [AWS Lambda (Auto-Scaling Compute)] 
+[Amazon Aurora Serverless v2] ---> [Aurora PostgreSQL Logical Replication Plugin]
+                              ---> [Amazon Kinesis Data Streams / EventBridge]
+                              ---> [AWS Lambda (Auto-Scaling Compute)]
                               ---> [Snowflake Snowpipe Streaming / S3 Lakehouse]
 ```
 
@@ -900,7 +900,7 @@ In ephemeral container environments (e.g., Kubernetes spot instances), worker po
 
 ### Two-Phase Checkpoint Architecture:
 ```
-[API Extractor] ---> [Extract Page] ---> [Write to Staging / Buffer] 
+[API Extractor] ---> [Extract Page] ---> [Write to Staging / Buffer]
                                                     | (Flush Confirmed)
 [Transactional State Store] <--- [Commit Checkpoint Cursor]
 ```
@@ -999,10 +999,10 @@ Ingesting high-frequency binary telemetry (CAN bus, avionics, industrial PLC str
 
 ### Ultra-Low Latency Ingestion Architecture:
 ```
-[Sensors / UDP Sockets] ---> [Kernel Network Bypass (eBPF / DPDK)] 
-                        ---> [C++ / Rust Ingestion Daemon (epoll / io_uring)] 
-                        ---> [LMAX Disruptor Lock-Free Ring Buffer] 
-                        ---> [Zero-Copy FlatBuffers / Struct Deserializer] 
+[Sensors / UDP Sockets] ---> [Kernel Network Bypass (eBPF / DPDK)]
+                        ---> [C++ / Rust Ingestion Daemon (epoll / io_uring)]
+                        ---> [LMAX Disruptor Lock-Free Ring Buffer]
+                        ---> [Zero-Copy FlatBuffers / Struct Deserializer]
                         ---> [High-Throughput Kafka / Redpanda Buffer (RDMA)]
 ```
 
@@ -1151,10 +1151,10 @@ Static cron schedules fail when external partners deliver data unpredictably (e.
 
 ### Event-Driven Orchestration Architecture:
 ```
-[Partner File Upload] ---> [S3:ObjectCreated Notification] 
-                      ---> [AWS EventBridge / SQS] 
-                      ---> [Metadata State Machine (Temporal / Dagster)] 
-                      ---> [Evaluates Partition Dependency Gate] 
+[Partner File Upload] ---> [S3:ObjectCreated Notification]
+                      ---> [AWS EventBridge / SQS]
+                      ---> [Metadata State Machine (Temporal / Dagster)]
+                      ---> [Evaluates Partition Dependency Gate]
                       ---> [Triggers Ingestion & Downstream dbt DAGs]
 ```
 
@@ -1177,7 +1177,7 @@ Static cron schedules fail when external partners deliver data unpredictably (e.
            if not self.all_banks_received(partition_date):
                await workflow.execute_activity(send_sla_breach_alert, partition_date)
                await workflow.execute_activity(impute_missing_partner_data, partition_date)
-           
+
            # Trigger ingestion and transformation DAG
            await workflow.execute_activity(execute_dbt_transformation, partition_date)
    ```

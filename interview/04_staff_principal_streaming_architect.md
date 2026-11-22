@@ -57,16 +57,16 @@ def process_message_batch(records, db_conn):
         # 1. Begin atomic DB transaction
         for record in records:
             cur.execute("INSERT INTO business_table (id, val) VALUES (%s, %s)", (record.key, record.value))
-        
+
         # 2. Update committed offset in the same transaction
         for tp, offset in calculate_max_offsets(records).items():
             cur.execute("""
                 INSERT INTO kafka_consumer_offsets (topic, partition, committed_offset)
                 VALUES (%s, %s, %s)
-                ON CONFLICT (topic, partition) 
+                ON CONFLICT (topic, partition)
                 DO UPDATE SET committed_offset = EXCLUDED.committed_offset
             """, (tp.topic, tp.partition, offset))
-        
+
         # 3. Commit atomically - either both succeed or neither does
         db_conn.commit()
 ```
@@ -149,11 +149,11 @@ public class PiiMaskingInterceptor implements ProducerInterceptor<String, Object
     public ProducerRecord<String, Object> onSend(ProducerRecord<String, Object> record) {
         // Inspect headers or payload
         Object maskedValue = piiEngine.maskSensitiveFields(record.value());
-        
+
         // Add audit header
         Headers headers = record.headers();
         headers.add("x-pii-masked", "true".getBytes(StandardCharsets.UTF_8));
-        
+
         return new ProducerRecord<>(
             record.topic(), record.partition(), record.timestamp(),
             record.key(), maskedValue, headers
@@ -238,10 +238,10 @@ Evaluating hundreds of dynamic fraud detection rules over billions of transactio
    - Rules are authored in JSON or MVEL/Groovy expressions and published to a Kafka rules topic.
    - TaskManagers receive rules via `BroadcastStream` and compile them into executable `Pattern` objects or stateful rule predicates in memory:
 ```java
-public class DynamicFraudEvaluationFunction 
+public class DynamicFraudEvaluationFunction
     extends KeyedBroadcastProcessFunction<String, Transaction, FraudRuleDefinition, FraudAlert> {
 
-    private final MapStateDescriptor<String, CompiledRule> ruleStateDescriptor = 
+    private final MapStateDescriptor<String, CompiledRule> ruleStateDescriptor =
         new MapStateDescriptor<>("rules", String.class, CompiledRule.class);
 
     @Override
@@ -337,7 +337,11 @@ Standard reactive autoscaling based purely on CPU utilization fails for streamin
 
 1. **Autoscaling Formula & Predictive Capacity Planning**:
    - The Autoscaler calculates target operator parallelism ($P_{	ext{target}}$) based on observed processing rates, upstream Kafka lag, and backpressure overhead:
-     $$P_{	ext{target}} = \left\lceil P_{	ext{current}} 	imes rac{	ext{Processing Rate} + rac{	ext{Lag}}{	ext{Target Catchup Time}}}{	ext{True Processing Capacity} 	imes (1 - 	ext{Backpressure Ratio})} ightceil$$
+     $$P_{	ext{target}} = \left\lceil P_{	ext{current}} 	imes
+rac{	ext{Processing Rate} +
+rac{	ext{Lag}}{	ext{Target Catchup Time}}}{	ext{True Processing Capacity} 	imes (1 - 	ext{Backpressure Ratio})}
+ight
+ceil$$
    - **Metrics Aggregation**: Scrapes real-time metrics every 30 seconds:
      - `KafkaSourceReader.recordsLagMax`: Total accumulated partition lag.
      - `busyTimeMsPerSecond`: True CPU time spent processing records (excluding idle waiting and backpressure pauses).
@@ -537,10 +541,10 @@ In enterprise environments subject to GDPR, HIPAA, and PCI-DSS, Personally Ident
 
 ### Cryptographic In-Flight Architecture:
 ```
-[Source DB WAL] -> [Debezium Ingress] 
-                -> [Cryptographic Policy SMT (AES-256-GCM + HMAC)] 
-                -> [AWS KMS / HashiCorp Vault Transit Engine] 
-                -> [Kafka Brokers (Encrypted Storage)] 
+[Source DB WAL] -> [Debezium Ingress]
+                -> [Cryptographic Policy SMT (AES-256-GCM + HMAC)]
+                -> [AWS KMS / HashiCorp Vault Transit Engine]
+                -> [Kafka Brokers (Encrypted Storage)]
                 -> [Authorized Decryption Consumers]
 ```
 
@@ -557,10 +561,10 @@ In enterprise environments subject to GDPR, HIPAA, and PCI-DSS, Personally Ident
        Struct value = (Struct) record.value();
        Struct after = value.getStruct("after");
        String rawEmail = after.getString("email");
-       
+
        String emailHmac = HmacUtils.hmacSha256Hex(secretSalt, rawEmail);
        byte[] encryptedSsn = AesGcmCipher.encrypt(after.getString("ssn"), cachedDek);
-       
+
        after.put("email_token", emailHmac);
        after.put("ssn_encrypted", Base64.getEncoder().encodeToString(encryptedSsn));
        after.put("ssn", null); // Zero out plaintext
@@ -608,11 +612,11 @@ WHERE id = src.id AND src.lsn > core.orders.last_lsn;
 A background verification agent compares cryptographic checksums across source and target tables in discrete primary key ranges:
 ```sql
 -- Compute 64-bit XOR checksum per 100,000-key bucket
-SELECT 
+SELECT
     FLOOR(id / 100000) AS bucket_id,
     COUNT(*) AS row_cnt,
     BIT_XOR(MD5(CONCAT_WS(':', id, status, total_amount, updated_at))::bit(64)) AS checksum
-FROM orders 
+FROM orders
 GROUP BY 1;
 ```
 If `checksum` matches between source and downstream DWH, the bucket is verified 100% sound.
@@ -623,7 +627,7 @@ When a bucket checksum mismatch is detected:
 2. The repair agent issues an ad-hoc incremental snapshot signal to Debezium:
    ```sql
    INSERT INTO inventory.debezium_signal (id, type, data)
-   VALUES (gen_random_uuid(), 'execute-snapshot', 
+   VALUES (gen_random_uuid(), 'execute-snapshot',
            '{"data-collections": ["orders"], "additional-condition": "id IN (4012, 4015)"}');
    ```
 3. Debezium re-reads the authoritative state from the primary database and streams it downstream, automatically healing the corrupted records.
@@ -648,10 +652,10 @@ In enterprise multi-tenant SaaS, regulatory compliance requires tenant data isol
 
 ### System Architecture:
 ```
-[Multi-Tenant Shared DB] ---> [Debezium Ingress] 
-                         ---> [Tenant Routing SMT] 
-                         ---> [Tenant-Specific Kafka Topics] 
-                         ---> [Cross-Account IAM AssumeRole Sinks] 
+[Multi-Tenant Shared DB] ---> [Debezium Ingress]
+                         ---> [Tenant Routing SMT]
+                         ---> [Tenant-Specific Kafka Topics]
+                         ---> [Cross-Account IAM AssumeRole Sinks]
                          ---> [Tenant AWS Accounts (Dedicated S3 / KMS)]
 ```
 
@@ -700,12 +704,12 @@ Distributed tracing typically breaks when an asynchronous database write decoupl
 
 ### End-to-End Tracing Architecture:
 ```
-[User Request] -> [API Gateway (W3C traceparent)] 
-               -> [Microservice Write (Context in DB)] 
-               -> [Database WAL] 
-               -> [Debezium (Extracts Context -> Kafka Header)] 
-               -> [Kafka Topic] 
-               -> [Flink / Spark / Snowflake (Span Propagation)] 
+[User Request] -> [API Gateway (W3C traceparent)]
+               -> [Microservice Write (Context in DB)]
+               -> [Database WAL]
+               -> [Debezium (Extracts Context -> Kafka Header)]
+               -> [Kafka Topic]
+               -> [Flink / Spark / Snowflake (Span Propagation)]
                -> [BI Query / Trace Visualization (Jaeger / Datadog)]
 ```
 
@@ -751,11 +755,11 @@ Deploying untested custom connectors into production risks API rate-limit lockou
 
 ### Automated Test Pipeline:
 ```
-[Pull Request] ---> [Mock Server Container (WireMock)] 
-              ---> [Phase 1: Protocol Contract Validation (spec/check/discover)] 
-              ---> [Phase 2: Error & Chaos Injection (429, 401, Drops)] 
-              ---> [Phase 3: Incremental State Checkpoint Test] 
-              ---> [Phase 4: Synthetic Fuzzing] 
+[Pull Request] ---> [Mock Server Container (WireMock)]
+              ---> [Phase 1: Protocol Contract Validation (spec/check/discover)]
+              ---> [Phase 2: Error & Chaos Injection (429, 401, Drops)]
+              ---> [Phase 3: Incremental State Checkpoint Test]
+              ---> [Phase 4: Synthetic Fuzzing]
               ---> [Merge Approval]
 ```
 
@@ -1076,7 +1080,7 @@ CREATE TABLE currency_rates (
 );
 
 -- Temporal table join matches the dimension version valid at transaction event time
-SELECT 
+SELECT
     t.tx_id, t.amount, t.amount * r.rate AS amount_usd, t.tx_time
 FROM transactions AS t
 JOIN currency_rates FOR SYSTEM_TIME AS OF t.tx_time AS r
@@ -1175,7 +1179,7 @@ Relational databases store data in normalized 3NF schemas (`orders`, `order_item
 ### System Architecture:
 ```
 [RDBMS Tables] ---> [Debezium CDC] ---> [Kafka Topics (orders, items, users)]
-               ---> [Stateful Stream Processor (Apache Flink)] 
+               ---> [Stateful Stream Processor (Apache Flink)]
                ---> [Denormalized JSON Stream] ---> [Elasticsearch Sink]
 ```
 
@@ -1183,7 +1187,7 @@ Relational databases store data in normalized 3NF schemas (`orders`, `order_item
 Flink consumes all 3 CDC streams, maintaining RocksDB state stores keyed by `order_id`:
 ```sql
 CREATE TABLE orders_denormalized AS
-SELECT 
+SELECT
     o.order_id,
     o.order_date,
     o.order_status,
