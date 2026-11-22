@@ -13,10 +13,10 @@
 flowchart TD
     Alert["SEV-1 Alert: PostgreSQL WAL Disk > 85% & Debezium Lagging"] --> CheckDisk["Step 1: Check Replication Slot Disk Retained in Postgres"]
     CheckDisk --> SlotState{"Replication Slot Active?"}
-    
+
     SlotState -->|"Active: Lagging"| ThrottleCheck["Debezium is Throttled or Blocked on Kafka"]
     SlotState -->|"Inactive: Abandoned"| DropSlot["Drop Abandoned Slot Immediately to Reclaim WAL Disk"]
-    
+
     ThrottleCheck --> SchemaCheck{"Schema Registry Rejection?"}
     SchemaCheck -->|Yes| FixSchema["Update Schema Registry Compatibility Mode"]
     SchemaCheck -->|No| ScaleConnect["Scale Kafka Connect Worker Tasks & Memory"]

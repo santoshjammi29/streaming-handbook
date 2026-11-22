@@ -1,10 +1,7 @@
 # Module 06: Event Time, Watermarking & Side Outputs
 
-
 ![Spark Structured Streaming State Store & Watermarking Mechanics](../../assets/whiteboards/spark_streaming_state_store.webp)
 > *Architectural Blueprint: [Spark Structured Streaming State Store & Watermarking Mechanics](../../docs/whiteboard_diagrams/README.md#spark-streaming-state-store). View full multi-persona breakdown and engine mechanisms in the master index.*
-
-
 
 ## 1. Watermark Mechanics
 A watermark $W(t)$ is a monotonically increasing assertion that no events with event timestamp $\le t$ will arrive in the future.

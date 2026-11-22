@@ -13,10 +13,10 @@
 flowchart TD
     Alert["SEV-1 Alert: Kafka Under-Replicated Partitions > 0"] --> IdentifyBrokers["Step 1: Identify Offline or Degraded Brokers"]
     IdentifyBrokers --> BrokerState{"Broker Health Status?"}
-    
+
     BrokerState -->|"Broker Down / Hardware Failure"| RestartBroker["Restart Broker or Provision Replacement Node"]
     BrokerState -->|"Broker Online / Disk I/O Bottleneck"| DiskBottleneck["Disk Saturation / Slow Follower"]
-    
+
     RestartBroker --> PartitionRebalance["Generate Throttled Partition Reassignment Plan"]
     DiskBottleneck --> ThrottleReplication["Apply Bandwidth Throttle on Inter-Broker Replication"]
     PartitionRebalance --> ExecuteRebalance["Execute kafka-reassign-partitions.sh"]

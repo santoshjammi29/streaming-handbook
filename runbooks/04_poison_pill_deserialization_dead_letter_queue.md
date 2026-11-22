@@ -13,10 +13,10 @@
 flowchart TD
     Alert["SEV-2 Alert: Structured Streaming Query Crashed with Malformed JSON"] --> ParseError["Step 1: Check Driver Exception for Parse Mode"]
     ParseError --> ModeCheck{"Parse Mode?"}
-    
+
     ModeCheck -->|"FAILFAST"| CrashDetected["FAILFAST crashed micro-batch"]
     ModeCheck -->|"PERMISSIVE"| PermissiveCheck["Check _corrupt_record column handling"]
-    
+
     CrashDetected --> ApplyPermissive["Configure PERMISSIVE mode with columnNameOfCorruptRecord"]
     ApplyPermissive --> BranchStream["Split Stream into Valid Delta Sink and DLQ Kafka Sink"]
     BranchStream --> ResumeQuery["Restart Streaming Query from Checkpoint"]
@@ -87,11 +87,11 @@ parsed_stream = raw_stream.select(
 # 4. Route valid vs corrupt records via foreachBatch sink
 def process_micro_batch(batch_df, batch_id):
     batch_df.cache()
-    
+
     # Valid records: _corrupt_record is NULL and transaction_id is populated
     valid_df = batch_df.filter(col("data._corrupt_record").isNull() & col("data.transaction_id").isNotNull()) \
         .select("kafka_key", "data.*", "kafka_timestamp")
-    
+
     # Poison pill corrupt records: _corrupt_record is NOT NULL
     corrupt_df = batch_df.filter(col("data._corrupt_record").isNotNull()) \
         .select(
@@ -105,13 +105,13 @@ def process_micro_batch(batch_df, batch_id):
                 current_timestamp().alias("quarantine_timestamp")
             )).alias("value")
         )
-    
+
     # Write valid records to Delta Lake Silver table
     valid_df.write \
         .format("delta") \
         .mode("append") \
         .saveAsTable("lakehouse.silver_transactions")
-        
+
     # Write corrupt records to Dead-Letter Queue topic
     if corrupt_df.count() > 0:
         corrupt_df.write \
@@ -119,7 +119,7 @@ def process_micro_batch(batch_df, batch_id):
             .option("kafka.bootstrap.servers", "kafka-1:9092,kafka-2:9092") \
             .option("topic", "events.dlq") \
             .save()
-            
+
     batch_df.unpersist()
 
 # 5. Start streaming query

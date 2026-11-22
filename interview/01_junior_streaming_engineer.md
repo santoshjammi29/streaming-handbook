@@ -643,7 +643,7 @@ public class UserEventCountFunction extends KeyedProcessFunction<String, UserEve
     @Override
     public void open(Configuration parameters) {
         ValueStateDescriptor<Long> descriptor = new ValueStateDescriptor<>("user-event-count", Long.class);
-        
+
         // State TTL configuration to prevent memory leaks on inactive users
         StateTtlConfig ttlConfig = StateTtlConfig
             .newBuilder(Time.days(7))
@@ -948,7 +948,7 @@ def extract_incremental(api_client, state_store, stream_name):
             records.append(record)
             if record["updated_at"] > new_cursor:
                 new_cursor = record["updated_at"]
-        
+
     write_to_staging(records)
     state_store.commit_cursor(stream_name, new_cursor)
 ```

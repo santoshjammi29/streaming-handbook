@@ -1,14 +1,10 @@
 # 🏛️ Architecture: Kafka Partition Storage & Consumer Group Protocol
 
-
 ![Real-Time Event Streaming & Kafka Architecture](../assets/whiteboards/kafka_event_streaming_pipeline.webp)
 > *Architectural Blueprint: [Real-Time Event Streaming & Kafka Architecture](../docs/whiteboard_diagrams/README.md#kafka-event-streaming-pipeline). View full multi-persona breakdown and engine mechanisms in the master index.*
 
-
 ![Enterprise Data Movement & Replication Strategy Decision Flow](../assets/whiteboards/data_ingestion_strategy_matrix_architecture.webp)
 > *Architectural Blueprint: [Enterprise Data Movement & Replication Strategy Decision Flow](../docs/whiteboard_diagrams/README.md#data-ingestion-strategy-matrix). View full multi-persona breakdown and engine mechanisms in the master index.*
-
-
 
 > **Domain**: Event Streaming & Real-Time Processing  
 > **Target Audience**: Senior Engineers, Data Architects, Platform Leads  

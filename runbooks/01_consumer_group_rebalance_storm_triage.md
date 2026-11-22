@@ -13,15 +13,15 @@
 flowchart TD
     Alert["SEV-1 Alert: Consumer Group Rebalance Storm & Extreme Lag"] --> InspectLag["Step 1: Check Group State via kafka-consumer-groups.sh"]
     InspectLag --> StateCheck{"Group State?"}
-    
+
     StateCheck -->|"PreparingRebalance / CompletingRebalance"| StormDetect["Rebalance Storm Active"]
     StateCheck -->|"Dead / Empty"| DeadGroup["Consumers Disconnected or Crashed"]
     StateCheck -->|"Stable with Growing Lag"| SlowConsumers["Consumer Processing Bottleneck"]
-    
+
     StormDetect --> PollCheck{"Poll Interval Exceeded? (max.poll.interval.ms)"}
     PollCheck -->|Yes| FixPoll["Reduce max.poll.records & Increase max.poll.interval.ms"]
     PollCheck -->|No| StickyCheck["Upgrade to CooperativeStickyAssignor"]
-    
+
     SlowConsumers --> DownstreamCheck{"Downstream Sink Throttling (Delta/DB)?"}
     DownstreamCheck -->|Yes| SinkOptimize["Scale Sink Partitions & Batch Flush Size"]
     DownstreamCheck -->|No| ScaleConsumers["Scale Consumer Pod Replicas up to Partition Count"]
@@ -98,7 +98,7 @@ try:
                 continue
             else:
                 raise Exception(msg.error())
-        
+
         # Process transaction within bounded SLA (< 50ms)
         process_payment_event(msg.value())
         consumer.commit(asynchronous=True)

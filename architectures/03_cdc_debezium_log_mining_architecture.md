@@ -1,14 +1,10 @@
 # 🏛️ Architecture: Change Data Capture (CDC) with Debezium & Kafka Connect
 
-
 ![Real-Time Change Data Capture (CDC) Architecture](../assets/whiteboards/cdc_debezium_lakehouse_pipeline.webp)
 > *Architectural Blueprint: [Real-Time Change Data Capture (CDC) Architecture](../docs/whiteboard_diagrams/README.md#cdc-debezium-lakehouse-pipeline). View full multi-persona breakdown and engine mechanisms in the master index.*
 
-
 ![End-to-End Batch & Incremental Lakehouse Ingestion](../assets/whiteboards/lakehouse_ingestion_autoloader_architecture.webp)
 > *Architectural Blueprint: [End-to-End Batch & Incremental Lakehouse Ingestion](../docs/whiteboard_diagrams/README.md#lakehouse-ingestion-autoloader). View full multi-persona breakdown and engine mechanisms in the master index.*
-
-
 
 > **Domain**: Event Streaming & Real-Time Processing  
 > **Target Audience**: Senior Engineers, Data Architects, Platform Leads  

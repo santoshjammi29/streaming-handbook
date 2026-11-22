@@ -13,11 +13,11 @@
 flowchart TD
     Alert["SEV-1 Alert: Flink Checkpoint Expired / Backpressure > 0.8"] --> InspectBackpressure["Step 1: Query Flink REST API for Operator Backpressure"]
     InspectBackpressure --> IdentifyBottleneck{"Locate Bottleneck Operator"}
-    
+
     IdentifyBottleneck -->|"Sink Operator"| SinkIssue["Downstream Delta/Kafka Storage Throttling"]
     IdentifyBottleneck -->|"Stateful Window / Join Operator"| StateIssue["RocksDB GC Pauses or State Bloat"]
     IdentifyBottleneck -->|"Deserialization / CPU Operator"| CpuIssue["Compute Resource Starvation"]
-    
+
     SinkIssue --> EnableUnaligned["Enable Unaligned Checkpoints & Buffer Debloating"]
     StateIssue --> TuneRocksDB["Tune RocksDB Block Cache & Write Buffers"]
     CpuIssue --> ScaleTaskManagers["Scale TaskManager Slots & Heap Memory"]
