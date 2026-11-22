@@ -1,0 +1,84 @@
+# 🗺️ Streaming Handbook — Interactive Curriculum Roadmap
+
+> **Interactive Checkbox Study Tracker & Mastery Progression**  
+> **Canonical Repository**: [santoshjammi29/streaming-handbook](https://github.com/santoshjammi29/streaming-handbook) | **Ecosystem**: [moderndataengineer.uk](https://moderndataengineer.uk)  
+> **Total Exercises & Drills**: `21` | **Primary Pillar**: `Real-Time Streaming & Event Architecture`
+
+---
+
+## How to Use This Roadmap
+
+1. **Fork this repository** to your personal GitHub account.
+2. Work through the modules in sequence or target specific architectural topics.
+3. Check off boxes (`- [x]`) as you complete each exercise, drill, or notebook.
+4. Commit and push your progress to your personal branch to track your career journey!
+
+```
+Progress: [ ] 0 / 21 Completed (0.0%)
+```
+
+---
+
+## Curriculum Structure: The 4 Mastery Tiers
+
+```mermaid
+flowchart LR
+    T1["Tier 1: Foundations<br/>(Level 100)"] --> T2["Tier 2: Core Mechanics<br/>(Level 200)"]
+    T2 --> T3["Tier 3: Complex Scenarios<br/>(Level 300)"]
+    T3 --> T4["Tier 4: Staff Architect<br/>(Level 400)"]
+```
+
+### 🟡 Tier 2: Core Mechanics & Implementation (Level 200)
+> Production pipeline patterns, schema validation, standard transformations, and unit tests.
+
+- [ ] `streaming-handbook-01_kafka_storage_and_partitioning` — [Kafka Storage And Partitioning](modules/01_kafka_storage_and_partitioning/README.md) `Level 200`
+- [ ] `streaming-handbook-02_producers_consumers_and_consumer_groups` — [Producers Consumers And Consumer Groups](modules/02_producers_consumers_and_consumer_groups/README.md) `Level 200`
+- [ ] `streaming-handbook-03_schema_registry_and_evolution` — [Schema Registry And Evolution](modules/03_schema_registry_and_evolution/README.md) `Level 200`
+- [ ] `streaming-handbook-04_flink_distributed_runtime` — [Flink Distributed Runtime](modules/04_flink_distributed_runtime/README.md) `Level 200`
+- [ ] `streaming-handbook-05_state_management_and_rocksdb` — [State Management And Rocksdb](modules/05_state_management_and_rocksdb/README.md) `Level 200`
+- [ ] `streaming-handbook-06_event_time_watermarks_and_lateness` — [Event Time Watermarks And Lateness](modules/06_event_time_watermarks_and_lateness/README.md) `Level 200`
+- [ ] `streaming-handbook-07_streaming_window_aggregations` — [Streaming Window Aggregations](modules/07_streaming_window_aggregations/README.md) `Level 200`
+- [ ] `streaming-handbook-08_cdc_log_mining_and_debezium` — [Cdc Log Mining And Debezium](modules/08_cdc_log_mining_and_debezium/README.md) `Level 200`
+- [ ] `streaming-handbook-09_end_to_end_exactly_once` — [End To End Exactly Once](modules/09_end_to_end_exactly_once/README.md) `Level 200`
+- [ ] `streaming-handbook-10_stream_to_lakehouse_sinks` — [Stream To Lakehouse Sinks](modules/10_stream_to_lakehouse_sinks/README.md) `Level 200`
+- [ ] `streaming-handbook-curriculum-topics` — [Topics Directory: Streaming Handbook](topics/README.md) `Level 200`
+
+### 🔴 Tier 4: Production Hardening, FinOps & Staff Architecture (Level 400)
+> Enterprise trade-offs, cross-cloud DR, zero-trust security, and FinOps cost optimization.
+
+- [ ] `streaming-handbook-rb-01_consumer_group_rebalance_storm_triage` — [Incident Runbook: Consumer Group Rebalance Storm Triage](runbooks/01_consumer_group_rebalance_storm_triage.md) `Level 400`
+- [ ] `streaming-handbook-rb-02_flink_backpressure_and_checkpoint_timeout_triage` — [Incident Runbook: Flink Backpressure And Checkpoint Timeout Triage](runbooks/02_flink_backpressure_and_checkpoint_timeout_triage.md) `Level 400`
+- [ ] `streaming-handbook-rb-03_cdc_schema_drift_and_wal_exhaustion` — [Incident Runbook: Cdc Schema Drift And Wal Exhaustion](runbooks/03_cdc_schema_drift_and_wal_exhaustion.md) `Level 400`
+- [ ] `streaming-handbook-rb-04_poison_pill_deserialization_dead_letter_queue` — [Incident Runbook: Poison Pill Deserialization Dead Letter Queue](runbooks/04_poison_pill_deserialization_dead_letter_queue.md) `Level 400`
+- [ ] `streaming-handbook-rb-05_rocksdb_offheap_memory_leak_triage` — [Incident Runbook: Rocksdb Offheap Memory Leak Triage](runbooks/05_rocksdb_offheap_memory_leak_triage.md) `Level 400`
+- [ ] `streaming-handbook-rb-06_kafka_under_replicated_partitions_disaster_recovery` — [Incident Runbook: Kafka Under Replicated Partitions Disaster Recovery](runbooks/06_kafka_under_replicated_partitions_disaster_recovery.md) `Level 400`
+- [ ] `streaming-handbook-doc-01_kafka_storage_internals_and_consumer_groups` — [Architecture: 01 Kafka Storage Internals And Consumer Groups](architectures/01_kafka_storage_internals_and_consumer_groups.md) `Level 400`
+- [ ] `streaming-handbook-doc-02_flink_distributed_runtime_and_chandy_lamport` — [Architecture: 02 Flink Distributed Runtime And Chandy Lamport](architectures/02_flink_distributed_runtime_and_chandy_lamport.md) `Level 400`
+- [ ] `streaming-handbook-doc-03_cdc_debezium_log_mining_architecture` — [Architecture: 03 Cdc Debezium Log Mining Architecture](architectures/03_cdc_debezium_log_mining_architecture.md) `Level 400`
+- [ ] `streaming-handbook-doc-04_stream_to_lakehouse_exactly_once_mechanics` — [Architecture: 04 Stream To Lakehouse Exactly Once Mechanics](architectures/04_stream_to_lakehouse_exactly_once_mechanics.md) `Level 400`
+
+---
+
+## Suggested Study Schedules
+
+| Schedule | Pace | Target Audience | Focus |
+|---|---|---|---|
+| **4-Week Sprint** | 5-6 drills / day | Interview Prep / Fast Track | Focus on Tier 2 & Tier 3 core drills |
+| **8-Week Deep-Dive** | 2-3 drills / day | Full Technical Mastery | Complete all 21 exercises + tests |
+| **12-Week Staff Track** | 1-2 drills / day | Architect & Tech Lead | Deep dive into Tier 3 & Tier 4 blueprints |
+
+---
+
+## Sister Repositories & Ecosystem Roadmaps
+
+Explore interactive roadmaps across all 14 pillars of the lakehouse ecosystem:
+- [Modern Data Engineer Central Hub](https://moderndataengineer.uk)
+- [Databricks Handbook](https://github.com/santoshjammi29/databricks-handbook)
+- [PySpark Handbook](https://github.com/santoshjammi29/pyspark-handbook)
+- [SQL Handbook](https://github.com/santoshjammi29/sql-handbook)
+- [dbt Handbook](https://github.com/santoshjammi29/dbt-handbook)
+- [Streaming Handbook](https://github.com/santoshjammi29/streaming-handbook)
+- [DataOps & CI/CD Handbook](https://github.com/santoshjammi29/dataops-cicd-handbook)
+- [System Design Handbook](https://github.com/santoshjammi29/data-system-design-handbook)
+- [Interview Handbook](https://github.com/santoshjammi29/data-engineering-interview-handbook)
+- [Security Handbook](https://github.com/santoshjammi29/security-handbook)
