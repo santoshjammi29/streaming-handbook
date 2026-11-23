@@ -17,6 +17,209 @@
 
 ---
 
+## 🎯 Overview & Mission
+
+Modern enterprise data systems require rigorous operational governance, predictable failure recovery, deterministic schemas, and observable pipeline execution.
+
+This repository provides **battle-tested production specifications**:
+- **4 Deep-Dive Architectural Blueprints**: In-depth engine mechanics, state stores, and Mermaid diagrams.
+- **6 Production Incident Disaster Recovery Runbooks**: SEV-1 and SEV-2 playbooks with Emergency Decision Trees.
+- **4-Tier Progressive Interview Matrix & 50 Flashcards**: Level 100 to Level 400 questions and active recall deck.
+- **52 Whiteboard Blueprints**: Architectural infographics mirrored under `assets/whiteboards/`.
+- **Interactive Terminal Shell**: Instant search and study directly from the terminal via `python scripts/interactive_shell.py`.
+
+---
+
+## 🚀 Quickstart & Setup
+
+Set up your local stream processing environment and run validation in under 60 seconds:
+
+```bash
+# 1. Clone repository
+git clone https://github.com/santoshjammi29/streaming-handbook.git
+cd streaming-handbook
+
+# 2. Set up virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+# 3. Explore streaming architectures and runbooks via CLI
+python3 scripts/interactive_shell.py --list
+python3 scripts/run_tests.py
+```
+
+---
+
+## 💻 Interactive CLI Explorer
+
+Explore architectures, runbooks, and interview guides directly from your terminal:
+
+```bash
+# Browse catalog
+python scripts/interactive_shell.py --list
+python scripts/interactive_shell.py --runbooks
+python scripts/interactive_shell.py --architectures
+python scripts/interactive_shell.py --interview
+python scripts/interactive_shell.py --ecosystem
+
+# Run self-contained test suite
+python scripts/run_tests.py
+```
+
+---
+
+## 🏛️ Platform Architecture
+
+```mermaid
+flowchart LR
+    A["Raw Ingestion & Contracts"] --> B["Processing & State Machine"]
+    B --> C["Validation & Quality Gates"]
+    C --> D["Storage & Lakehouse ACID Sinks"]
+    D --> E["Lineage, Governance & Telemetry"]
+```
+
+---
+
+## 🖼️ Master Whiteboard Architecture Blueprints
+
+The repository includes **52 publication-grade architectural whiteboard blueprints** mirrored under [`assets/whiteboards/`](assets/whiteboards) and cataloged with comprehensive multi-persona breakdowns, failure modes, and engine internals in [`docs/whiteboard_diagrams/README.md`](docs/whiteboard_diagrams/README.md).
+
+- 🖼️ **[Master Whiteboard Blueprints Hub](docs/whiteboard_diagrams/handbook_whiteboard_blueprints.md)**: Complete whiteboard architecture blueprints with storage vs. compute, control vs. data planes, memory tiers, and failure modes.
+- 📊 **[Spark Architecture & Tuning Cheatsheet](assets/whiteboards/spark_architecture_catalyst_cheatsheet.jpg)**: High-resolution visual cheatsheet covering cluster topology, Catalyst compiler phases, and memory tiers.
+- 🔀 **[Join Strategies Decision Matrix](assets/whiteboards/spark_join_strategies_decision_matrix.jpg)**: Visual flowchart and decision tree for distributed joins and broadcast thresholds.
+- ⚡ **[Skew & Memory Spill Triage](assets/whiteboards/spark_performance_skew_spill_triage.jpg)**: Step-by-step diagnostic workflow for data skew, spill to disk, and OOM triage.
+
+### 📐 Visual Blueprints Showcase
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="docs/whiteboard_diagrams/README.md#kafka-event-streaming-pipeline">
+        <img src="assets/whiteboards/kafka_event_streaming_pipeline.webp" alt="Real-Time Event Streaming & Kafka Architecture" width="100%" />
+      </a>
+      <br><strong>Real-Time Event Streaming & Kafka Architecture</strong><br>
+      <em>Distributed commit log, partition replication, consumer group rebalancing, and consumer lag.</em>
+    </td>
+    <td width="50%" valign="top">
+      <a href="docs/whiteboard_diagrams/README.md#spark-streaming-state-store">
+        <img src="assets/whiteboards/spark_streaming_state_store.webp" alt="Spark Structured Streaming State Store & Watermarking Mechanics" width="100%" />
+      </a>
+      <br><strong>Spark Structured Streaming State Store & Watermarking Mechanics</strong><br>
+      <em>RocksDB state store, event-time watermarking, and incremental state commit checkpoints.</em>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="docs/whiteboard_diagrams/README.md#cdc-debezium-lakehouse-pipeline">
+        <img src="assets/whiteboards/cdc_debezium_lakehouse_pipeline.webp" alt="Real-Time Change Data Capture (CDC) Architecture" width="100%" />
+      </a>
+      <br><strong>Real-Time Change Data Capture (CDC) Architecture</strong><br>
+      <em>Log-based CDC using Debezium, Kafka Connect, and streaming ingestion into Bronze Delta.</em>
+    </td>
+    <td width="50%" valign="top">
+      <a href="docs/whiteboard_diagrams/README.md#streaming-dlq-recovery-flow">
+        <img src="assets/whiteboards/streaming_dlq_recovery_flow_architecture.webp" alt="Stateful Streaming Failure Recovery & Dead-Letter Queue (DLQ) Remediation" width="100%" />
+      </a>
+      <br><strong>Stateful Streaming Failure Recovery & Dead-Letter Queue (DLQ) Remediation</strong><br>
+      <em>Poison pill isolation, exponential backoff retries, and quarantine routing flows.</em>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="docs/whiteboard_diagrams/README.md#lakehouse-ingestion-autoloader">
+        <img src="assets/whiteboards/lakehouse_ingestion_autoloader_architecture.webp" alt="End-to-End Batch & Incremental Lakehouse Ingestion" width="100%" />
+      </a>
+      <br><strong>End-to-End Batch & Incremental Lakehouse Ingestion</strong><br>
+      <em>Cloud storage file notification, schema evolution, and Auto Loader micro-batch ingestion.</em>
+    </td>
+    <td width="50%" valign="top">
+      <a href="docs/whiteboard_diagrams/README.md#distributed-systems-resilience-architecture">
+        <img src="assets/whiteboards/distributed_systems_resilience_architecture.webp" alt="Distributed Systems Design: High-Throughput & Resilient Architecture" width="100%" />
+      </a>
+      <br><strong>Distributed Systems Design: High-Throughput & Resilient Architecture</strong><br>
+      <em>Circuit breaking, rate limiting, connection pooling, and resilient RPC topology.</em>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="docs/whiteboard_diagrams/README.md#data-ingestion-strategy-matrix">
+        <img src="assets/whiteboards/data_ingestion_strategy_matrix_architecture.webp" alt="Enterprise Data Movement & Replication Strategy Decision Flow" width="100%" />
+      </a>
+      <br><strong>Enterprise Data Movement & Replication Strategy Decision Flow</strong><br>
+      <em>Decision tree for batch vs micro-batch vs continuous streaming replication.</em>
+    </td>
+    <td width="50%" valign="top">
+      <a href="docs/whiteboard_diagrams/README.md#lakehouse-acid-concurrency">
+        <img src="assets/whiteboards/lakehouse_acid_concurrency.webp" alt="Lakehouse ACID Concurrency & Write Conflict Resolution Matrix" width="100%" />
+      </a>
+      <br><strong>Lakehouse ACID Concurrency & Write Conflict Resolution Matrix</strong><br>
+      <em>Two-phase commit, transactional sinks, and write conflict serialization.</em>
+    </td>
+  </tr>
+</table>
+
+> 🔍 **Explore all 52 blueprints with 5-persona breakdowns, failure modes, and engine internals in [docs/whiteboard_diagrams/README.md](docs/whiteboard_diagrams/README.md)**.
+
+## 📦 Production Curriculum Modules
+
+| Module | Title & Focus | Key Deliverables & Code |
+| :---: | :--- | :--- |
+| **01** | **[Kafka Storage Internals & Zero-Copy I/O](modules/01_kafka_storage_and_partitioning/README.md)** | Commit log segments (`.log`, `.index`, `.timeindex`), Linux `sendfile()` OS page cache, `server.properties` |
+| **02** | **[Resilient Producers & Cooperative Consumers](modules/02_producers_consumers_and_consumer_groups/README.md)** | Idempotent producer (`acks=all`), sequence numbers, cooperative sticky rebalance, `producer_resilient.py` |
+| **03** | **[Schema Registry & Binary Avro Serialization](modules/03_schema_registry_and_evolution/README.md)** | 5-byte wire framing, magic byte (`0x00`), backward/forward compatibility rules, `order_event.avsc` |
+| **04** | **[Apache Flink Runtime & Chandy-Lamport](modules/04_flink_distributed_runtime/README.md)** | JobManager, TaskManager slots, streaming dataflow graphs, distributed barrier checkpointing |
+| **05** | **[State Management & RocksDB Tuning](modules/05_state_management_and_rocksdb/README.md)** | ValueState, ListState, MapState, RocksDB off-heap memory allocation, state TTL, `stateful_dedup.py` |
+| **06** | **[Event Time, Watermarks & Side Outputs](modules/06_event_time_watermarks_and_lateness/README.md)** | Bounded-out-of-orderness watermarks, late arriving data handling, dead-letter side outputs |
+| **07** | **[Streaming Window Aggregations](modules/07_streaming_window_aggregations/README.md)** | Tumbling, sliding, session, and over windows; incremental aggregate vs full process window |
+| **08** | **[CDC Log Mining & Debezium Connectors](modules/08_cdc_log_mining_and_debezium/README.md)** | Transactional log mining, Postgres `pgoutput` WAL parsing, MySQL binlogs, schema drift handling |
+| **09** | **[End-to-End Exactly-Once Processing](modules/09_end_to_end_exactly_once/README.md)** | Two-Phase Commit Protocol (`TwoPhaseCommitSinkFunction`), idempotent transactional sinks |
+| **10** | **[High-Throughput Stream-to-Lakehouse Sinks](modules/10_stream_to_lakehouse_sinks/README.md)** | PySpark Structured Streaming into Delta Lake / Iceberg, RocksDB state provider, `stream_to_delta.py` |
+
+---
+
+## 🏛️ Architectural Deep Dives
+
+Four production-tested architectural specifications located under `architectures/`:
+
+| Spec ID | Document Title | Target Level | Core Architectural Focus |
+| :---: | :--- | :---: | :--- |
+| **01** | **[Kafka Partition Storage & Consumer Group Protocol](architectures/01_kafka_storage_internals_and_consumer_groups.md)** | `Level 300-400` | Segment files, zero-copy index lookups, offset commit protocols, and rebalance algorithms. |
+| **02** | **[Flink Distributed Runtime & Asynchronous Barrier Snapshots](architectures/02_flink_distributed_runtime_and_chandy_lamport.md)** | `Level 300-400` | Chandy-Lamport checkpointing, stream alignment, RocksDB state backends, and WAL sinks. |
+| **03** | **[Change Data Capture (CDC) with Debezium & Kafka Connect](architectures/03_cdc_debezium_log_mining_architecture.md)** | `Level 300-400` | Database WAL mining (Postgres WAL, MySQL binlog), snapshotting, and tombstone event propagation. |
+| **04** | **[Stream-to-Lakehouse Exactly-Once Ingestion](architectures/04_stream_to_lakehouse_exactly_once_mechanics.md)** | `Level 300-400` | Two-Phase Commit sinks, micro-batch coordination, and Delta/Iceberg atomic transaction logs. |
+
+---
+
+## 🚨 Production Incident Runbooks
+
+Six operational disaster recovery runbooks located under `runbooks/`:
+
+| Runbook ID | Title & Direct Link | Severity | Root Cause & Remediation Focus |
+| :---: | :--- | :---: | :--- |
+| **01** | **[Consumer Group Rebalance Storm & Lag Surge Triage](runbooks/01_consumer_group_rebalance_storm_triage.md)** | `SEV-1` | Triage max.poll.interval.ms expirations, heartbeats, and stop-the-world partition rebalances. |
+| **02** | **[Flink Backpressure & Checkpoint Timeout Triage](runbooks/02_flink_backpressure_and_checkpoint_timeout_triage.md)** | `SEV-1` | Locate bottleneck operators, tune network buffer pools, and resolve unaligned checkpoints. |
+| **03** | **[CDC Schema Drift & Database WAL Disk Exhaustion](runbooks/03_cdc_schema_drift_and_wal_exhaustion.md)** | `SEV-1` | Handle replication slot stalls, upstream disk 100% saturation, and schema evolution. |
+| **04** | **[Corrupt Event Deserialization & DLQ Routing](runbooks/04_poison_pill_deserialization_dead_letter_queue.md)** | `SEV-2` | Isolate malformed payloads, unparseable JSON/Avro, and route safely to dead-letter topics. |
+| **05** | **[Flink RocksDB Off-Heap Native Memory Leak Triage](runbooks/05_rocksdb_offheap_memory_leak_triage.md)** | `SEV-2` | Diagnose block cache over-allocation, write buffer spill, and container OS OOM kills. |
+| **06** | **[Kafka Under-Replicated Partitions & Broker Failure Recovery](runbooks/06_kafka_under_replicated_partitions_disaster_recovery.md)** | `SEV-1` | Recover offline replicas, resolve leader election failures, and rebalance partition replicas. |
+
+---
+
+## 🎓 4-Tier Interview Preparation Matrix
+
+Comprehensive technical interview guides and flashcard deck located under `interview/`:
+
+| Tier | Role Target | Core Focus Areas | Direct Link |
+| :---: | :--- | :--- | :---: |
+| **Tier 1** | **Junior Streaming Engineer** | Kafka topics, partitions, producers, consumer offsets, basic serialization. | [`01_junior.md`](interview/01_junior_streaming_engineer.md) |
+| **Tier 2** | **Mid-Level Streaming Engineer** | Consumer lag, Kafka Connect, Avro Schema Registry, Flink tumbling windows. | [`02_mid_level.md`](interview/02_mid_level_streaming_engineer.md) |
+| **Tier 3** | **Senior Distributed Systems Engineer** | Chandy-Lamport state snapshots, RocksDB tuning, stream-stream joins, exact-once. | [`03_senior.md`](interview/03_senior_distributed_streaming_engineer.md) |
+| **Tier 4** | **Staff & Principal Streaming Architect** | Multi-datacenter Kafka replication (MirrorMaker 2), capacity math, edge IoT ingest. | [`04_staff.md`](interview/04_staff_principal_streaming_architect.md) |
+| **Deck** | **50 Rapid-Fire Flashcards** | 50 active recall questions and answers for technical mastery. | [`05_flashcards.md`](interview/05_flashcards_deck_50.md) |
+
+---
+
 ## 🧠 Core Curriculum Concepts & Topics (76 Topics Covered)
 
 > 💡 **Enterprise Knowledge Base Integration**: This repository implements **76 production topics** from the [Modern Data Engineering Systems Encyclopedia (921 Topics)](https://moderndataengineer.uk/concepts), grouped by **Relevant Functional Sections** and then by **Difficulty Level**. All sections are **collapsible and collapsed by default** for effortless navigation. Browse the full curriculum in [`topics/README.md`](topics/README.md).
@@ -225,188 +428,6 @@
 </details>
 
 
-
-## 🎯 Overview & Mission
-
-Modern enterprise data systems require rigorous operational governance, predictable failure recovery, deterministic schemas, and observable pipeline execution.
-
-This repository provides **battle-tested production specifications**:
-- **4 Deep-Dive Architectural Blueprints**: In-depth engine mechanics, state stores, and Mermaid diagrams.
-- **6 Production Incident Disaster Recovery Runbooks**: SEV-1 and SEV-2 playbooks with Emergency Decision Trees.
-- **4-Tier Progressive Interview Matrix & 50 Flashcards**: Level 100 to Level 400 questions and active recall deck.
-- **52 Whiteboard Blueprints**: Architectural infographics mirrored under `assets/whiteboards/`.
-- **Interactive Terminal Shell**: Instant search and study directly from the terminal via `python scripts/interactive_shell.py`.
-
----
-
-## 🏛️ Platform Architecture
-
-```mermaid
-flowchart LR
-    A["Raw Ingestion & Contracts"] --> B["Processing & State Machine"]
-    B --> C["Validation & Quality Gates"]
-    C --> D["Storage & Lakehouse ACID Sinks"]
-    D --> E["Lineage, Governance & Telemetry"]
-```
-
----
-
-## 🖼️ Master Whiteboard Architecture Blueprints
-
-The repository includes **52 publication-grade architectural whiteboard blueprints** mirrored under [`assets/whiteboards/`](assets/whiteboards) and cataloged with comprehensive multi-persona breakdowns, failure modes, and engine internals in [`docs/whiteboard_diagrams/README.md`](docs/whiteboard_diagrams/README.md).
-
-- 🖼️ **[Master Whiteboard Blueprints Hub](docs/whiteboard_diagrams/handbook_whiteboard_blueprints.md)**: Complete whiteboard architecture blueprints with storage vs. compute, control vs. data planes, memory tiers, and failure modes.
-- 📊 **[Spark Architecture & Tuning Cheatsheet](assets/whiteboards/spark_architecture_catalyst_cheatsheet.jpg)**: High-resolution visual cheatsheet covering cluster topology, Catalyst compiler phases, and memory tiers.
-- 🔀 **[Join Strategies Decision Matrix](assets/whiteboards/spark_join_strategies_decision_matrix.jpg)**: Visual flowchart and decision tree for distributed joins and broadcast thresholds.
-- ⚡ **[Skew & Memory Spill Triage](assets/whiteboards/spark_performance_skew_spill_triage.jpg)**: Step-by-step diagnostic workflow for data skew, spill to disk, and OOM triage.
-
-### 📐 Visual Blueprints Showcase
-
-<table>
-  <tr>
-    <td width="50%" valign="top">
-      <a href="docs/whiteboard_diagrams/README.md#kafka-event-streaming-pipeline">
-        <img src="assets/whiteboards/kafka_event_streaming_pipeline.webp" alt="Real-Time Event Streaming & Kafka Architecture" width="100%" />
-      </a>
-      <br><strong>Real-Time Event Streaming & Kafka Architecture</strong><br>
-      <em>Distributed commit log, partition replication, consumer group rebalancing, and consumer lag.</em>
-    </td>
-    <td width="50%" valign="top">
-      <a href="docs/whiteboard_diagrams/README.md#spark-streaming-state-store">
-        <img src="assets/whiteboards/spark_streaming_state_store.webp" alt="Spark Structured Streaming State Store & Watermarking Mechanics" width="100%" />
-      </a>
-      <br><strong>Spark Structured Streaming State Store & Watermarking Mechanics</strong><br>
-      <em>RocksDB state store, event-time watermarking, and incremental state commit checkpoints.</em>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <a href="docs/whiteboard_diagrams/README.md#cdc-debezium-lakehouse-pipeline">
-        <img src="assets/whiteboards/cdc_debezium_lakehouse_pipeline.webp" alt="Real-Time Change Data Capture (CDC) Architecture" width="100%" />
-      </a>
-      <br><strong>Real-Time Change Data Capture (CDC) Architecture</strong><br>
-      <em>Log-based CDC using Debezium, Kafka Connect, and streaming ingestion into Bronze Delta.</em>
-    </td>
-    <td width="50%" valign="top">
-      <a href="docs/whiteboard_diagrams/README.md#streaming-dlq-recovery-flow">
-        <img src="assets/whiteboards/streaming_dlq_recovery_flow_architecture.webp" alt="Stateful Streaming Failure Recovery & Dead-Letter Queue (DLQ) Remediation" width="100%" />
-      </a>
-      <br><strong>Stateful Streaming Failure Recovery & Dead-Letter Queue (DLQ) Remediation</strong><br>
-      <em>Poison pill isolation, exponential backoff retries, and quarantine routing flows.</em>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <a href="docs/whiteboard_diagrams/README.md#lakehouse-ingestion-autoloader">
-        <img src="assets/whiteboards/lakehouse_ingestion_autoloader_architecture.webp" alt="End-to-End Batch & Incremental Lakehouse Ingestion" width="100%" />
-      </a>
-      <br><strong>End-to-End Batch & Incremental Lakehouse Ingestion</strong><br>
-      <em>Cloud storage file notification, schema evolution, and Auto Loader micro-batch ingestion.</em>
-    </td>
-    <td width="50%" valign="top">
-      <a href="docs/whiteboard_diagrams/README.md#distributed-systems-resilience-architecture">
-        <img src="assets/whiteboards/distributed_systems_resilience_architecture.webp" alt="Distributed Systems Design: High-Throughput & Resilient Architecture" width="100%" />
-      </a>
-      <br><strong>Distributed Systems Design: High-Throughput & Resilient Architecture</strong><br>
-      <em>Circuit breaking, rate limiting, connection pooling, and resilient RPC topology.</em>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <a href="docs/whiteboard_diagrams/README.md#data-ingestion-strategy-matrix">
-        <img src="assets/whiteboards/data_ingestion_strategy_matrix_architecture.webp" alt="Enterprise Data Movement & Replication Strategy Decision Flow" width="100%" />
-      </a>
-      <br><strong>Enterprise Data Movement & Replication Strategy Decision Flow</strong><br>
-      <em>Decision tree for batch vs micro-batch vs continuous streaming replication.</em>
-    </td>
-    <td width="50%" valign="top">
-      <a href="docs/whiteboard_diagrams/README.md#lakehouse-acid-concurrency">
-        <img src="assets/whiteboards/lakehouse_acid_concurrency.webp" alt="Lakehouse ACID Concurrency & Write Conflict Resolution Matrix" width="100%" />
-      </a>
-      <br><strong>Lakehouse ACID Concurrency & Write Conflict Resolution Matrix</strong><br>
-      <em>Two-phase commit, transactional sinks, and write conflict serialization.</em>
-    </td>
-  </tr>
-</table>
-
-> 🔍 **Explore all 52 blueprints with 5-persona breakdowns, failure modes, and engine internals in [docs/whiteboard_diagrams/README.md](docs/whiteboard_diagrams/README.md)**.
-
-## 💻 Interactive CLI Explorer
-
-Explore architectures, runbooks, and interview guides directly from your terminal:
-
-```bash
-# Browse catalog
-python scripts/interactive_shell.py --list
-python scripts/interactive_shell.py --runbooks
-python scripts/interactive_shell.py --architectures
-python scripts/interactive_shell.py --interview
-python scripts/interactive_shell.py --ecosystem
-
-# Run self-contained test suite
-python scripts/run_tests.py
-```
-
----
-
-## 📦 Production Curriculum Modules
-
-| Module | Title & Focus | Key Deliverables & Code |
-| :---: | :--- | :--- |
-| **01** | **[Kafka Storage Internals & Zero-Copy I/O](modules/01_kafka_storage_and_partitioning/README.md)** | Commit log segments (`.log`, `.index`, `.timeindex`), Linux `sendfile()` OS page cache, `server.properties` |
-| **02** | **[Resilient Producers & Cooperative Consumers](modules/02_producers_consumers_and_consumer_groups/README.md)** | Idempotent producer (`acks=all`), sequence numbers, cooperative sticky rebalance, `producer_resilient.py` |
-| **03** | **[Schema Registry & Binary Avro Serialization](modules/03_schema_registry_and_evolution/README.md)** | 5-byte wire framing, magic byte (`0x00`), backward/forward compatibility rules, `order_event.avsc` |
-| **04** | **[Apache Flink Runtime & Chandy-Lamport](modules/04_flink_distributed_runtime/README.md)** | JobManager, TaskManager slots, streaming dataflow graphs, distributed barrier checkpointing |
-| **05** | **[State Management & RocksDB Tuning](modules/05_state_management_and_rocksdb/README.md)** | ValueState, ListState, MapState, RocksDB off-heap memory allocation, state TTL, `stateful_dedup.py` |
-| **06** | **[Event Time, Watermarks & Side Outputs](modules/06_event_time_watermarks_and_lateness/README.md)** | Bounded-out-of-orderness watermarks, late arriving data handling, dead-letter side outputs |
-| **07** | **[Streaming Window Aggregations](modules/07_streaming_window_aggregations/README.md)** | Tumbling, sliding, session, and over windows; incremental aggregate vs full process window |
-| **08** | **[CDC Log Mining & Debezium Connectors](modules/08_cdc_log_mining_and_debezium/README.md)** | Transactional log mining, Postgres `pgoutput` WAL parsing, MySQL binlogs, schema drift handling |
-| **09** | **[End-to-End Exactly-Once Processing](modules/09_end_to_end_exactly_once/README.md)** | Two-Phase Commit Protocol (`TwoPhaseCommitSinkFunction`), idempotent transactional sinks |
-| **10** | **[High-Throughput Stream-to-Lakehouse Sinks](modules/10_stream_to_lakehouse_sinks/README.md)** | PySpark Structured Streaming into Delta Lake / Iceberg, RocksDB state provider, `stream_to_delta.py` |
-
----
-
-## 🏛️ Architectural Deep Dives
-
-Four production-tested architectural specifications located under `architectures/`:
-
-| Spec ID | Document Title | Target Level | Core Architectural Focus |
-| :---: | :--- | :---: | :--- |
-| **01** | **[Kafka Partition Storage & Consumer Group Protocol](architectures/01_kafka_storage_internals_and_consumer_groups.md)** | `Level 300-400` | Segment files, zero-copy index lookups, offset commit protocols, and rebalance algorithms. |
-| **02** | **[Flink Distributed Runtime & Asynchronous Barrier Snapshots](architectures/02_flink_distributed_runtime_and_chandy_lamport.md)** | `Level 300-400` | Chandy-Lamport checkpointing, stream alignment, RocksDB state backends, and WAL sinks. |
-| **03** | **[Change Data Capture (CDC) with Debezium & Kafka Connect](architectures/03_cdc_debezium_log_mining_architecture.md)** | `Level 300-400` | Database WAL mining (Postgres WAL, MySQL binlog), snapshotting, and tombstone event propagation. |
-| **04** | **[Stream-to-Lakehouse Exactly-Once Ingestion](architectures/04_stream_to_lakehouse_exactly_once_mechanics.md)** | `Level 300-400` | Two-Phase Commit sinks, micro-batch coordination, and Delta/Iceberg atomic transaction logs. |
-
----
-
-## 🚨 Production Incident Runbooks
-
-Six operational disaster recovery runbooks located under `runbooks/`:
-
-| Runbook ID | Title & Direct Link | Severity | Root Cause & Remediation Focus |
-| :---: | :--- | :---: | :--- |
-| **01** | **[Consumer Group Rebalance Storm & Lag Surge Triage](runbooks/01_consumer_group_rebalance_storm_triage.md)** | `SEV-1` | Triage max.poll.interval.ms expirations, heartbeats, and stop-the-world partition rebalances. |
-| **02** | **[Flink Backpressure & Checkpoint Timeout Triage](runbooks/02_flink_backpressure_and_checkpoint_timeout_triage.md)** | `SEV-1` | Locate bottleneck operators, tune network buffer pools, and resolve unaligned checkpoints. |
-| **03** | **[CDC Schema Drift & Database WAL Disk Exhaustion](runbooks/03_cdc_schema_drift_and_wal_exhaustion.md)** | `SEV-1` | Handle replication slot stalls, upstream disk 100% saturation, and schema evolution. |
-| **04** | **[Corrupt Event Deserialization & DLQ Routing](runbooks/04_poison_pill_deserialization_dead_letter_queue.md)** | `SEV-2` | Isolate malformed payloads, unparseable JSON/Avro, and route safely to dead-letter topics. |
-| **05** | **[Flink RocksDB Off-Heap Native Memory Leak Triage](runbooks/05_rocksdb_offheap_memory_leak_triage.md)** | `SEV-2` | Diagnose block cache over-allocation, write buffer spill, and container OS OOM kills. |
-| **06** | **[Kafka Under-Replicated Partitions & Broker Failure Recovery](runbooks/06_kafka_under_replicated_partitions_disaster_recovery.md)** | `SEV-1` | Recover offline replicas, resolve leader election failures, and rebalance partition replicas. |
-
----
-
-## 🎓 4-Tier Interview Preparation Matrix
-
-Comprehensive technical interview guides and flashcard deck located under `interview/`:
-
-| Tier | Role Target | Core Focus Areas | Direct Link |
-| :---: | :--- | :--- | :---: |
-| **Tier 1** | **Junior Streaming Engineer** | Kafka topics, partitions, producers, consumer offsets, basic serialization. | [`01_junior.md`](interview/01_junior_streaming_engineer.md) |
-| **Tier 2** | **Mid-Level Streaming Engineer** | Consumer lag, Kafka Connect, Avro Schema Registry, Flink tumbling windows. | [`02_mid_level.md`](interview/02_mid_level_streaming_engineer.md) |
-| **Tier 3** | **Senior Distributed Systems Engineer** | Chandy-Lamport state snapshots, RocksDB tuning, stream-stream joins, exact-once. | [`03_senior.md`](interview/03_senior_distributed_streaming_engineer.md) |
-| **Tier 4** | **Staff & Principal Streaming Architect** | Multi-datacenter Kafka replication (MirrorMaker 2), capacity math, edge IoT ingest. | [`04_staff.md`](interview/04_staff_principal_streaming_architect.md) |
-| **Deck** | **50 Rapid-Fire Flashcards** | 50 active recall questions and answers for technical mastery. | [`05_flashcards.md`](interview/05_flashcards_deck_50.md) |
-
----
 
 ## 🌐 Ecosystem Interlinking & Sister Repositories
 
