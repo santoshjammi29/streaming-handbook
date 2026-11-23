@@ -11,15 +11,15 @@
 
 ```mermaid
 flowchart TD
-    Alert["SEV-2 Alert: Structured Streaming Query Crashed with Malformed JSON"] --> ParseError["Step 1: Check Driver Exception for Parse Mode"]
+    Alert["SEV-2 Alert: Structured Streaming<br/>Query Crashed with Malformed JSON"] --> ParseError["Step 1: Check Driver Exception for<br/>Parse Mode"]
     ParseError --> ModeCheck{"Parse Mode?"}
 
     ModeCheck -->|"FAILFAST"| CrashDetected["FAILFAST crashed micro-batch"]
-    ModeCheck -->|"PERMISSIVE"| PermissiveCheck["Check _corrupt_record column handling"]
+    ModeCheck -->|"PERMISSIVE"| PermissiveCheck["Check _corrupt_record column<br/>handling"]
 
-    CrashDetected --> ApplyPermissive["Configure PERMISSIVE mode with columnNameOfCorruptRecord"]
-    ApplyPermissive --> BranchStream["Split Stream into Valid Delta Sink and DLQ Kafka Sink"]
-    BranchStream --> ResumeQuery["Restart Streaming Query from Checkpoint"]
+    CrashDetected --> ApplyPermissive["Configure PERMISSIVE mode with<br/>columnNameOfCorruptRecord"]
+    ApplyPermissive --> BranchStream["Split Stream into Valid Delta Sink<br/>and DLQ Kafka Sink"]
+    BranchStream --> ResumeQuery["Restart Streaming Query from<br/>Checkpoint"]
 ```
 
 ---

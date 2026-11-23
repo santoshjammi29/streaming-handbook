@@ -21,7 +21,7 @@ flowchart TD
         S2["Contract & Metadata Registry"]
     end
 
-    subgraph Engine["2. Core Execution Engine (Event Streaming & Real-Time Processing)"]
+    subgraph Engine["2. Core Execution Engine (Event Streaming &<br/>Real-Time Processing)"]
         P1["Parser & Semantic Analyzer"]
         DAG["Topological DAG Scheduler"]
         Exec["Physical Execution & State Backend"]
@@ -91,10 +91,10 @@ Modern event streaming architectures run **Apache Kafka KRaft (Kafka Raft)** in 
 ```mermaid
 flowchart TD
     subgraph KRaftQuorum["KRaft Metadata Controller Quorum"]
-        ActiveController["Active Controller Node (Raft Leader)"]
+        ActiveController["Active Controller Node (Raft<br/>Leader)"]
         Follower1["Controller Standby 1 (Follower)"]
         Follower2["Controller Standby 2 (Follower)"]
-        MetaTopic["@metadata Topic (Internal Event Log)"]
+        MetaTopic["@metadata Topic (Internal Event<br/>Log)"]
     end
 
     subgraph BrokerFleet["High-Throughput Broker Nodes"]
@@ -105,7 +105,7 @@ flowchart TD
 
     ActiveController --> MetaTopic
     MetaTopic --> Follower1 & Follower2
-    ActiveController -->|Replication State & ISR Sync| B1 & B2 & B3
+    ActiveController -->|"Replication State & ISR Sync"| B1 & B2 & B3
 ```
 
 ### Production Configuration: KRaft Server Properties (`server.properties`)

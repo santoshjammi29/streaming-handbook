@@ -11,16 +11,16 @@
 
 ```mermaid
 flowchart TD
-    Alert["SEV-1 Alert: Flink Checkpoint Expired / Backpressure > 0.8"] --> InspectBackpressure["Step 1: Query Flink REST API for Operator Backpressure"]
+    Alert["SEV-1 Alert: Flink Checkpoint<br/>Expired / Backpressure &gt; 0.8"] --> InspectBackpressure["Step 1: Query Flink REST API for<br/>Operator Backpressure"]
     InspectBackpressure --> IdentifyBottleneck{"Locate Bottleneck Operator"}
 
-    IdentifyBottleneck -->|"Sink Operator"| SinkIssue["Downstream Delta/Kafka Storage Throttling"]
-    IdentifyBottleneck -->|"Stateful Window / Join Operator"| StateIssue["RocksDB GC Pauses or State Bloat"]
+    IdentifyBottleneck -->|"Sink Operator"| SinkIssue["Downstream Delta/Kafka Storage<br/>Throttling"]
+    IdentifyBottleneck -->|"Stateful Window / Join<br/>Operator"| StateIssue["RocksDB GC Pauses or State Bloat"]
     IdentifyBottleneck -->|"Deserialization / CPU Operator"| CpuIssue["Compute Resource Starvation"]
 
-    SinkIssue --> EnableUnaligned["Enable Unaligned Checkpoints & Buffer Debloating"]
-    StateIssue --> TuneRocksDB["Tune RocksDB Block Cache & Write Buffers"]
-    CpuIssue --> ScaleTaskManagers["Scale TaskManager Slots & Heap Memory"]
+    SinkIssue --> EnableUnaligned["Enable Unaligned Checkpoints &<br/>Buffer Debloating"]
+    StateIssue --> TuneRocksDB["Tune RocksDB Block Cache & Write<br/>Buffers"]
+    CpuIssue --> ScaleTaskManagers["Scale TaskManager Slots & Heap<br/>Memory"]
 ```
 
 ---

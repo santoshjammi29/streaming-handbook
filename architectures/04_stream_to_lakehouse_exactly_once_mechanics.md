@@ -21,7 +21,7 @@ flowchart TD
         S2["Contract & Metadata Registry"]
     end
 
-    subgraph Engine["2. Core Execution Engine (Event Streaming & Real-Time Processing)"]
+    subgraph Engine["2. Core Execution Engine (Event Streaming &<br/>Real-Time Processing)"]
         P1["Parser & Semantic Analyzer"]
         DAG["Topological DAG Scheduler"]
         Exec["Physical Execution & State Backend"]
@@ -91,17 +91,17 @@ Ingesting high-velocity streaming records directly into Delta Lake 3.x utilizes 
 ```mermaid
 flowchart LR
     subgraph StreamSource["High-Velocity Event Stream"]
-        Kafka["Kafka Orders Topic (10,000 events/sec)"]
+        Kafka["Kafka Orders Topic (10,000<br/>events/sec)"]
     end
 
     subgraph StreamEngine["Structured Streaming Engine"]
-        Engine["Micro-Batch Execution (1-Second Trigger)"]
-        Checkpoint["ACID Checkpoint WAL (State Isolation)"]
+        Engine["Micro-Batch Execution (1-Second<br/>Trigger)"]
+        Checkpoint["ACID Checkpoint WAL (State<br/>Isolation)"]
     end
 
     subgraph LakehouseStorage["Target Delta Table with Deletion Vectors"]
         DeltaCommit["Atomic Commit (000042.json)"]
-        RoaringBitmap["Deletion Vector (.bin) Marks Deleted Rows"]
+        RoaringBitmap["Deletion Vector (.bin) Marks<br/>Deleted Rows"]
         ParquetAppend["Append-Only Parquet Data Files"]
     end
 

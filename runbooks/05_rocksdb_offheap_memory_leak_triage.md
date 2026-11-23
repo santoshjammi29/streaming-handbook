@@ -11,14 +11,14 @@
 
 ```mermaid
 flowchart TD
-    Alert["SEV-1 Alert: Spark Executor Killed (Exit Code 137 / OOMKilled)"] --> CheckLogs["Step 1: Inspect Executor Memory Logs (Off-Heap vs On-Heap)"]
+    Alert["SEV-1 Alert: Spark Executor Killed<br/>(Exit Code 137 / OOMKilled)"] --> CheckLogs["Step 1: Inspect Executor Memory<br/>Logs (Off-Heap vs On-Heap)"]
     CheckLogs --> MemoryCategory{"Where is Memory Growing?"}
 
-    MemoryCategory -->|"JVM Heap (java.lang.OutOfMemoryError)"| HeapLeak["Tune Spark Heap & State Watermarking"]
-    MemoryCategory -->|"Native RSS Memory (Container Eviction)"| NativeLeak["RocksDB Native Block Cache & MemTable Unbounded"]
+    MemoryCategory -->|"JVM Heap<br/>(java.lang.OutOfMemoryError)"| HeapLeak["Tune Spark Heap & State<br/>Watermarking"]
+    MemoryCategory -->|"Native RSS Memory (Container<br/>Eviction)"| NativeLeak["RocksDB Native Block Cache &<br/>MemTable Unbounded"]
 
-    NativeLeak --> SetBoundedMemory["Configure RocksDB Memory Bounds in spark.sql.streaming"]
-    SetBoundedMemory --> TuneCompaction["Tune Block Cache Size & MemTable Count"]
+    NativeLeak --> SetBoundedMemory["Configure RocksDB Memory Bounds in<br/>spark.sql.streaming"]
+    SetBoundedMemory --> TuneCompaction["Tune Block Cache Size & MemTable<br/>Count"]
     TuneCompaction --> RestartExecutors["Restart Stream with Memory Caps"]
 ```
 
