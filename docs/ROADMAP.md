@@ -28,10 +28,10 @@ Progress: [ ] 0 / 21 Completed (0.0%)
 <details>
 <summary>&nbsp;&nbsp;<b>🔴 Tier 4: Production Hardening & Staff Architecture (Level 400) (4 Drills)</b></summary>
 
-- [ ] `streaming-handbook-doc-01_kafka_storage_internals_and_consumer_groups` — [Architecture: 01 Kafka Storage Internals And Consumer Groups](architectures/01_kafka_storage_internals_and_consumer_groups.md) `L400`
-- [ ] `streaming-handbook-doc-02_flink_distributed_runtime_and_chandy_lamport` — [Architecture: 02 Flink Distributed Runtime And Chandy Lamport](architectures/02_flink_distributed_runtime_and_chandy_lamport.md) `L400`
-- [ ] `streaming-handbook-doc-03_cdc_debezium_log_mining_architecture` — [Architecture: 03 Cdc Debezium Log Mining Architecture](architectures/03_cdc_debezium_log_mining_architecture.md) `L400`
-- [ ] `streaming-handbook-doc-04_stream_to_lakehouse_exactly_once_mechanics` — [Architecture: 04 Stream To Lakehouse Exactly Once Mechanics](architectures/04_stream_to_lakehouse_exactly_once_mechanics.md) `L400`
+- [ ] `streaming-handbook-doc-01_kafka_storage_internals_and_consumer_groups` — [Architecture: 01 Kafka Storage Internals And Consumer Groups](../architectures/01_kafka_storage_internals_and_consumer_groups.md) `L400`
+- [ ] `streaming-handbook-doc-02_flink_distributed_runtime_and_chandy_lamport` — [Architecture: 02 Flink Distributed Runtime And Chandy Lamport](../architectures/02_flink_distributed_runtime_and_chandy_lamport.md) `L400`
+- [ ] `streaming-handbook-doc-03_cdc_debezium_log_mining_architecture` — [Architecture: 03 Cdc Debezium Log Mining Architecture](../architectures/03_cdc_debezium_log_mining_architecture.md) `L400`
+- [ ] `streaming-handbook-doc-04_stream_to_lakehouse_exactly_once_mechanics` — [Architecture: 04 Stream To Lakehouse Exactly Once Mechanics](../architectures/04_stream_to_lakehouse_exactly_once_mechanics.md) `L400`
 
 </details>
 
@@ -64,12 +64,12 @@ Progress: [ ] 0 / 21 Completed (0.0%)
 <details>
 <summary>&nbsp;&nbsp;<b>🔴 Tier 4: Production Hardening & Staff Architecture (Level 400) (6 Drills)</b></summary>
 
-- [ ] `streaming-handbook-rb-01_consumer_group_rebalance_storm_triage` — [Incident Runbook: Consumer Group Rebalance Storm Triage](runbooks/01_consumer_group_rebalance_storm_triage.md) `L400`
-- [ ] `streaming-handbook-rb-02_flink_backpressure_and_checkpoint_timeout_triage` — [Incident Runbook: Flink Backpressure And Checkpoint Timeout Triage](runbooks/02_flink_backpressure_and_checkpoint_timeout_triage.md) `L400`
-- [ ] `streaming-handbook-rb-03_cdc_schema_drift_and_wal_exhaustion` — [Incident Runbook: Cdc Schema Drift And Wal Exhaustion](runbooks/03_cdc_schema_drift_and_wal_exhaustion.md) `L400`
-- [ ] `streaming-handbook-rb-04_poison_pill_deserialization_dead_letter_queue` — [Incident Runbook: Poison Pill Deserialization Dead Letter Queue](runbooks/04_poison_pill_deserialization_dead_letter_queue.md) `L400`
-- [ ] `streaming-handbook-rb-05_rocksdb_offheap_memory_leak_triage` — [Incident Runbook: Rocksdb Offheap Memory Leak Triage](runbooks/05_rocksdb_offheap_memory_leak_triage.md) `L400`
-- [ ] `streaming-handbook-rb-06_kafka_under_replicated_partitions_disaster_recovery` — [Incident Runbook: Kafka Under Replicated Partitions Disaster Recovery](runbooks/06_kafka_under_replicated_partitions_disaster_recovery.md) `L400`
+- [ ] `streaming-handbook-rb-01_consumer_group_rebalance_storm_triage` — [Incident Runbook: Consumer Group Rebalance Storm Triage](../runbooks/01_consumer_group_rebalance_storm_triage.md) `L400`
+- [ ] `streaming-handbook-rb-02_flink_backpressure_and_checkpoint_timeout_triage` — [Incident Runbook: Flink Backpressure And Checkpoint Timeout Triage](../runbooks/02_flink_backpressure_and_checkpoint_timeout_triage.md) `L400`
+- [ ] `streaming-handbook-rb-03_cdc_schema_drift_and_wal_exhaustion` — [Incident Runbook: Cdc Schema Drift And Wal Exhaustion](../runbooks/03_cdc_schema_drift_and_wal_exhaustion.md) `L400`
+- [ ] `streaming-handbook-rb-04_poison_pill_deserialization_dead_letter_queue` — [Incident Runbook: Poison Pill Deserialization Dead Letter Queue](../runbooks/04_poison_pill_deserialization_dead_letter_queue.md) `L400`
+- [ ] `streaming-handbook-rb-05_rocksdb_offheap_memory_leak_triage` — [Incident Runbook: Rocksdb Offheap Memory Leak Triage](../runbooks/05_rocksdb_offheap_memory_leak_triage.md) `L400`
+- [ ] `streaming-handbook-rb-06_kafka_under_replicated_partitions_disaster_recovery` — [Incident Runbook: Kafka Under Replicated Partitions Disaster Recovery](../runbooks/06_kafka_under_replicated_partitions_disaster_recovery.md) `L400`
 
 </details>
 
