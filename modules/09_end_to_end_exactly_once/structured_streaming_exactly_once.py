@@ -11,10 +11,10 @@ Cross-links:
 
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import (
-    col, from_json, current_timestamp, expr, window
+    col, from_json, current_timestamp
 )
 from pyspark.sql.types import (
-    StructType, StructField, StringType, LongType, TimestampType, DoubleType
+    StructType, StructField, StringType, TimestampType, DoubleType
 )
 
 # ── Schema Definition ─────────────────────────────────────────────────────────

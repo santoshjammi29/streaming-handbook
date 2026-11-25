@@ -1,6 +1,6 @@
 # Stateful deduplication logic with state time-to-live (TTL)
 from pyflink.common import Time
-from pyflink.datastream.state import ValueStateDescriptor, StateTtlConfig
+from pyflink.datastream.state import StateTtlConfig
 
 def configure_state_ttl() -> StateTtlConfig:
     # 24-hour expiration prevents unbounded off-heap state growth

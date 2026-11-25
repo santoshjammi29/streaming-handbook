@@ -43,16 +43,16 @@ Progress: [ ] 0 / 21 Completed (0.0%)
 <details>
 <summary>&nbsp;&nbsp;<b>🟡 Tier 2: Core Mechanics & Implementation (Level 200) (10 Drills)</b></summary>
 
-- [ ] `streaming-handbook-01_kafka_storage_and_partitioning` — [Kafka Storage And Partitioning](modules/01_kafka_storage_and_partitioning/README.md) `L200`
-- [ ] `streaming-handbook-02_producers_consumers_and_consumer_groups` — [Producers Consumers And Consumer Groups](modules/02_producers_consumers_and_consumer_groups/README.md) `L200`
-- [ ] `streaming-handbook-03_schema_registry_and_evolution` — [Schema Registry And Evolution](modules/03_schema_registry_and_evolution/README.md) `L200`
-- [ ] `streaming-handbook-04_flink_distributed_runtime` — [Flink Distributed Runtime](modules/04_flink_distributed_runtime/README.md) `L200`
-- [ ] `streaming-handbook-05_state_management_and_rocksdb` — [State Management And Rocksdb](modules/05_state_management_and_rocksdb/README.md) `L200`
-- [ ] `streaming-handbook-06_event_time_watermarks_and_lateness` — [Event Time Watermarks And Lateness](modules/06_event_time_watermarks_and_lateness/README.md) `L200`
-- [ ] `streaming-handbook-07_streaming_window_aggregations` — [Streaming Window Aggregations](modules/07_streaming_window_aggregations/README.md) `L200`
-- [ ] `streaming-handbook-08_cdc_log_mining_and_debezium` — [Cdc Log Mining And Debezium](modules/08_cdc_log_mining_and_debezium/README.md) `L200`
-- [ ] `streaming-handbook-09_end_to_end_exactly_once` — [End To End Exactly Once](modules/09_end_to_end_exactly_once/README.md) `L200`
-- [ ] `streaming-handbook-10_stream_to_lakehouse_sinks` — [Stream To Lakehouse Sinks](modules/10_stream_to_lakehouse_sinks/README.md) `L200`
+- [ ] `streaming-handbook-01_kafka_storage_and_partitioning` — [Kafka Storage And Partitioning](../modules/01_kafka_storage_and_partitioning/README.md) `L200`
+- [ ] `streaming-handbook-02_producers_consumers_and_consumer_groups` — [Producers Consumers And Consumer Groups](../modules/02_producers_consumers_and_consumer_groups/README.md) `L200`
+- [ ] `streaming-handbook-03_schema_registry_and_evolution` — [Schema Registry And Evolution](../modules/03_schema_registry_and_evolution/README.md) `L200`
+- [ ] `streaming-handbook-04_flink_distributed_runtime` — [Flink Distributed Runtime](../modules/04_flink_distributed_runtime/README.md) `L200`
+- [ ] `streaming-handbook-05_state_management_and_rocksdb` — [State Management And Rocksdb](../modules/05_state_management_and_rocksdb/README.md) `L200`
+- [ ] `streaming-handbook-06_event_time_watermarks_and_lateness` — [Event Time Watermarks And Lateness](../modules/06_event_time_watermarks_and_lateness/README.md) `L200`
+- [ ] `streaming-handbook-07_streaming_window_aggregations` — [Streaming Window Aggregations](../modules/07_streaming_window_aggregations/README.md) `L200`
+- [ ] `streaming-handbook-08_cdc_log_mining_and_debezium` — [Cdc Log Mining And Debezium](../modules/08_cdc_log_mining_and_debezium/README.md) `L200`
+- [ ] `streaming-handbook-09_end_to_end_exactly_once` — [End To End Exactly Once](../modules/09_end_to_end_exactly_once/README.md) `L200`
+- [ ] `streaming-handbook-10_stream_to_lakehouse_sinks` — [Stream To Lakehouse Sinks](../modules/10_stream_to_lakehouse_sinks/README.md) `L200`
 
 </details>
 
@@ -81,7 +81,7 @@ Progress: [ ] 0 / 21 Completed (0.0%)
 <details>
 <summary>&nbsp;&nbsp;<b>🟡 Tier 2: Core Mechanics & Implementation (Level 200) (1 Drills)</b></summary>
 
-- [ ] `streaming-handbook-curriculum-topics` — [Topics Directory: Streaming Handbook](topics/README.md) `L200`
+- [ ] `streaming-handbook-curriculum-topics` — [Topics Directory: Streaming Handbook](../topics/README.md) `L200`
 
 </details>
 

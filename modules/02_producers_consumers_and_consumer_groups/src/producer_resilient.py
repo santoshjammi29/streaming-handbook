@@ -1,5 +1,4 @@
 import json
-import logging
 from kafka import KafkaProducer
 
 def create_resilient_producer(bootstrap_servers: list[str]) -> KafkaProducer:
