@@ -11,7 +11,7 @@
       "type": "curriculum_module",
       "title": "Kafka Storage And Partitioning",
       "module": "01_kafka_storage_and_partitioning",
-      "difficulty": "L200",
+      "difficulty": "L2",
       "relative_path": "modules/01_kafka_storage_and_partitioning/README.md",
       "pillars": [
         "Real-Time Streaming & Event Architecture"
@@ -22,7 +22,7 @@
       "type": "curriculum_module",
       "title": "Producers Consumers And Consumer Groups",
       "module": "02_producers_consumers_and_consumer_groups",
-      "difficulty": "L200",
+      "difficulty": "L2",
       "relative_path": "modules/02_producers_consumers_and_consumer_groups/README.md",
       "pillars": [
         "Real-Time Streaming & Event Architecture"
@@ -33,7 +33,7 @@
       "type": "curriculum_module",
       "title": "Schema Registry And Evolution",
       "module": "03_schema_registry_and_evolution",
-      "difficulty": "L200",
+      "difficulty": "L2",
       "relative_path": "modules/03_schema_registry_and_evolution/README.md",
       "pillars": [
         "Real-Time Streaming & Event Architecture"
@@ -44,7 +44,7 @@
       "type": "curriculum_module",
       "title": "Flink Distributed Runtime",
       "module": "04_flink_distributed_runtime",
-      "difficulty": "L200",
+      "difficulty": "L2",
       "relative_path": "modules/04_flink_distributed_runtime/README.md",
       "pillars": [
         "Real-Time Streaming & Event Architecture"
@@ -55,7 +55,7 @@
       "type": "curriculum_module",
       "title": "State Management And Rocksdb",
       "module": "05_state_management_and_rocksdb",
-      "difficulty": "L200",
+      "difficulty": "L2",
       "relative_path": "modules/05_state_management_and_rocksdb/README.md",
       "pillars": [
         "Real-Time Streaming & Event Architecture"
@@ -66,7 +66,7 @@
       "type": "curriculum_module",
       "title": "Event Time Watermarks And Lateness",
       "module": "06_event_time_watermarks_and_lateness",
-      "difficulty": "L200",
+      "difficulty": "L2",
       "relative_path": "modules/06_event_time_watermarks_and_lateness/README.md",
       "pillars": [
         "Real-Time Streaming & Event Architecture"
@@ -77,7 +77,7 @@
       "type": "curriculum_module",
       "title": "Streaming Window Aggregations",
       "module": "07_streaming_window_aggregations",
-      "difficulty": "L200",
+      "difficulty": "L2",
       "relative_path": "modules/07_streaming_window_aggregations/README.md",
       "pillars": [
         "Real-Time Streaming & Event Architecture"
@@ -88,7 +88,7 @@
       "type": "curriculum_module",
       "title": "Cdc Log Mining And Debezium",
       "module": "08_cdc_log_mining_and_debezium",
-      "difficulty": "L200",
+      "difficulty": "L2",
       "relative_path": "modules/08_cdc_log_mining_and_debezium/README.md",
       "pillars": [
         "Real-Time Streaming & Event Architecture"
@@ -99,7 +99,7 @@
       "type": "curriculum_module",
       "title": "End To End Exactly Once",
       "module": "09_end_to_end_exactly_once",
-      "difficulty": "L200",
+      "difficulty": "L2",
       "relative_path": "modules/09_end_to_end_exactly_once/README.md",
       "pillars": [
         "Real-Time Streaming & Event Architecture"
@@ -110,7 +110,7 @@
       "type": "curriculum_module",
       "title": "Stream To Lakehouse Sinks",
       "module": "10_stream_to_lakehouse_sinks",
-      "difficulty": "L200",
+      "difficulty": "L2",
       "relative_path": "modules/10_stream_to_lakehouse_sinks/README.md",
       "pillars": [
         "Real-Time Streaming & Event Architecture"
@@ -120,7 +120,7 @@
       "id": "streaming-handbook-rb-01_consumer_group_rebalance_storm_triage",
       "type": "incident_runbook",
       "title": "Incident Runbook: Consumer Group Rebalance Storm Triage",
-      "difficulty": "L400",
+      "difficulty": "L4",
       "relative_path": "runbooks/01_consumer_group_rebalance_storm_triage.md",
       "pillars": [
         "Real-Time Streaming & Event Architecture"
@@ -130,7 +130,7 @@
       "id": "streaming-handbook-rb-02_flink_backpressure_and_checkpoint_timeout_triage",
       "type": "incident_runbook",
       "title": "Incident Runbook: Flink Backpressure And Checkpoint Timeout Triage",
-      "difficulty": "L400",
+      "difficulty": "L4",
       "relative_path": "runbooks/02_flink_backpressure_and_checkpoint_timeout_triage.md",
       "pillars": [
         "Real-Time Streaming & Event Architecture"
@@ -140,7 +140,7 @@
       "id": "streaming-handbook-rb-03_cdc_schema_drift_and_wal_exhaustion",
       "type": "incident_runbook",
       "title": "Incident Runbook: Cdc Schema Drift And Wal Exhaustion",
-      "difficulty": "L400",
+      "difficulty": "L4",
       "relative_path": "runbooks/03_cdc_schema_drift_and_wal_exhaustion.md",
       "pillars": [
         "Real-Time Streaming & Event Architecture"
@@ -150,7 +150,7 @@
       "id": "streaming-handbook-rb-04_poison_pill_deserialization_dead_letter_queue",
       "type": "incident_runbook",
       "title": "Incident Runbook: Poison Pill Deserialization Dead Letter Queue",
-      "difficulty": "L400",
+      "difficulty": "L4",
       "relative_path": "runbooks/04_poison_pill_deserialization_dead_letter_queue.md",
       "pillars": [
         "Real-Time Streaming & Event Architecture"
@@ -160,7 +160,7 @@
       "id": "streaming-handbook-rb-05_rocksdb_offheap_memory_leak_triage",
       "type": "incident_runbook",
       "title": "Incident Runbook: Rocksdb Offheap Memory Leak Triage",
-      "difficulty": "L400",
+      "difficulty": "L4",
       "relative_path": "runbooks/05_rocksdb_offheap_memory_leak_triage.md",
       "pillars": [
         "Real-Time Streaming & Event Architecture"
@@ -170,7 +170,7 @@
       "id": "streaming-handbook-rb-06_kafka_under_replicated_partitions_disaster_recovery",
       "type": "incident_runbook",
       "title": "Incident Runbook: Kafka Under Replicated Partitions Disaster Recovery",
-      "difficulty": "L400",
+      "difficulty": "L4",
       "relative_path": "runbooks/06_kafka_under_replicated_partitions_disaster_recovery.md",
       "pillars": [
         "Real-Time Streaming & Event Architecture"
@@ -180,7 +180,7 @@
       "id": "streaming-handbook-doc-01_kafka_storage_internals_and_consumer_groups",
       "type": "architecture_blueprint",
       "title": "Architecture: 01 Kafka Storage Internals And Consumer Groups",
-      "difficulty": "L400",
+      "difficulty": "L4",
       "relative_path": "architectures/01_kafka_storage_internals_and_consumer_groups.md",
       "pillars": [
         "Real-Time Streaming & Event Architecture"
@@ -190,7 +190,7 @@
       "id": "streaming-handbook-doc-02_flink_distributed_runtime_and_chandy_lamport",
       "type": "architecture_blueprint",
       "title": "Architecture: 02 Flink Distributed Runtime And Chandy Lamport",
-      "difficulty": "L400",
+      "difficulty": "L4",
       "relative_path": "architectures/02_flink_distributed_runtime_and_chandy_lamport.md",
       "pillars": [
         "Real-Time Streaming & Event Architecture"
@@ -200,7 +200,7 @@
       "id": "streaming-handbook-doc-03_cdc_debezium_log_mining_architecture",
       "type": "architecture_blueprint",
       "title": "Architecture: 03 Cdc Debezium Log Mining Architecture",
-      "difficulty": "L400",
+      "difficulty": "L4",
       "relative_path": "architectures/03_cdc_debezium_log_mining_architecture.md",
       "pillars": [
         "Real-Time Streaming & Event Architecture"
@@ -210,7 +210,7 @@
       "id": "streaming-handbook-doc-04_stream_to_lakehouse_exactly_once_mechanics",
       "type": "architecture_blueprint",
       "title": "Architecture: 04 Stream To Lakehouse Exactly Once Mechanics",
-      "difficulty": "L400",
+      "difficulty": "L4",
       "relative_path": "architectures/04_stream_to_lakehouse_exactly_once_mechanics.md",
       "pillars": [
         "Real-Time Streaming & Event Architecture"
@@ -220,7 +220,7 @@
       "id": "streaming-handbook-curriculum-topics",
       "type": "curriculum_topics_catalog",
       "title": "Topics Directory: Streaming Handbook",
-      "difficulty": "L200",
+      "difficulty": "L2",
       "relative_path": "topics/README.md",
       "pillars": [
         "Real-Time Streaming & Event Architecture"

@@ -24,7 +24,7 @@ Modern enterprise data systems require rigorous operational governance, predicta
 This repository provides **battle-tested production specifications**:
 - **4 Deep-Dive Architectural Blueprints**: In-depth engine mechanics, state stores, and Mermaid diagrams.
 - **6 Production Incident Disaster Recovery Runbooks**: SEV-1 and SEV-2 playbooks with Emergency Decision Trees.
-- **4-Tier Progressive Interview Matrix & 50 Flashcards**: Level 100 to Level 400 questions and active recall deck.
+- **4-Tier Progressive Interview Matrix & 50 Flashcards**: Level 1 to Level 4 questions and active recall deck.
 - **52 Whiteboard Blueprints**: Architectural infographics mirrored under `assets/whiteboards/`.
 - **Interactive Terminal Shell**: Instant search and study directly from the terminal via `python scripts/interactive_shell.py`.
 
@@ -184,10 +184,10 @@ Four production-tested architectural specifications located under `architectures
 
 | Spec ID | Document Title | Target Level | Core Architectural Focus |
 | :---: | :--- | :---: | :--- |
-| **01** | **[Kafka Partition Storage & Consumer Group Protocol](architectures/01_kafka_storage_internals_and_consumer_groups.md)** | `Level 300-400` | Segment files, zero-copy index lookups, offset commit protocols, and rebalance algorithms. |
-| **02** | **[Flink Distributed Runtime & Asynchronous Barrier Snapshots](architectures/02_flink_distributed_runtime_and_chandy_lamport.md)** | `Level 300-400` | Chandy-Lamport checkpointing, stream alignment, RocksDB state backends, and WAL sinks. |
-| **03** | **[Change Data Capture (CDC) with Debezium & Kafka Connect](architectures/03_cdc_debezium_log_mining_architecture.md)** | `Level 300-400` | Database WAL mining (Postgres WAL, MySQL binlog), snapshotting, and tombstone event propagation. |
-| **04** | **[Stream-to-Lakehouse Exactly-Once Ingestion](architectures/04_stream_to_lakehouse_exactly_once_mechanics.md)** | `Level 300-400` | Two-Phase Commit sinks, micro-batch coordination, and Delta/Iceberg atomic transaction logs. |
+| **01** | **[Kafka Partition Storage & Consumer Group Protocol](architectures/01_kafka_storage_internals_and_consumer_groups.md)** | `Level 3-4` | Segment files, zero-copy index lookups, offset commit protocols, and rebalance algorithms. |
+| **02** | **[Flink Distributed Runtime & Asynchronous Barrier Snapshots](architectures/02_flink_distributed_runtime_and_chandy_lamport.md)** | `Level 3-4` | Chandy-Lamport checkpointing, stream alignment, RocksDB state backends, and WAL sinks. |
+| **03** | **[Change Data Capture (CDC) with Debezium & Kafka Connect](architectures/03_cdc_debezium_log_mining_architecture.md)** | `Level 3-4` | Database WAL mining (Postgres WAL, MySQL binlog), snapshotting, and tombstone event propagation. |
+| **04** | **[Stream-to-Lakehouse Exactly-Once Ingestion](architectures/04_stream_to_lakehouse_exactly_once_mechanics.md)** | `Level 3-4` | Two-Phase Commit sinks, micro-batch coordination, and Delta/Iceberg atomic transaction logs. |
 
 ---
 
@@ -237,7 +237,7 @@ Comprehensive technical interview guides and flashcard deck located under `inter
 <summary>&nbsp;&nbsp;📂 <b>Section: Open Table Formats (Iceberg, Delta, Hudi) (22 Topics)</b></summary>
 
 <details>
-<summary>&nbsp;&nbsp;&nbsp;&nbsp;🟢 Easy: <b>🟢 Easy (Level 100) (1 Topics)</b></summary>
+<summary>&nbsp;&nbsp;&nbsp;&nbsp;🟢 Easy: <b>🟢 Easy (Level 1) (1 Topics)</b></summary>
 
 | # | Topic / Concept | Level | Architectural Definition & Core Principle |
 |:---:|---|:---:|---|
@@ -246,7 +246,7 @@ Comprehensive technical interview guides and flashcard deck located under `inter
 </details>
 
 <details>
-<summary>&nbsp;&nbsp;&nbsp;&nbsp;🟡 Intermediate: <b>🟡 Intermediate (Level 200) (4 Topics)</b></summary>
+<summary>&nbsp;&nbsp;&nbsp;&nbsp;🟡 Intermediate: <b>🟡 Intermediate (Level 2) (4 Topics)</b></summary>
 
 | # | Topic / Concept | Level | Architectural Definition & Core Principle |
 |:---:|---|:---:|---|
@@ -258,7 +258,7 @@ Comprehensive technical interview guides and flashcard deck located under `inter
 </details>
 
 <details>
-<summary>&nbsp;&nbsp;&nbsp;&nbsp;🔴 Advanced: <b>🔴 Advanced (Level 300) (6 Topics)</b></summary>
+<summary>&nbsp;&nbsp;&nbsp;&nbsp;🔴 Advanced: <b>🔴 Advanced (Level 3) (6 Topics)</b></summary>
 
 | # | Topic / Concept | Level | Architectural Definition & Core Principle |
 |:---:|---|:---:|---|
@@ -272,7 +272,7 @@ Comprehensive technical interview guides and flashcard deck located under `inter
 </details>
 
 <details>
-<summary>&nbsp;&nbsp;&nbsp;&nbsp;🟣 Architect: <b>🟣 Staff Architect (Level 400) (11 Topics)</b></summary>
+<summary>&nbsp;&nbsp;&nbsp;&nbsp;🟣 Architect: <b>🟣 Staff Architect (Level 4) (11 Topics)</b></summary>
 
 | # | Topic / Concept | Level | Architectural Definition & Core Principle |
 |:---:|---|:---:|---|
@@ -296,7 +296,7 @@ Comprehensive technical interview guides and flashcard deck located under `inter
 <summary>&nbsp;&nbsp;📂 <b>Section: Real-Time Streaming & Watermarking (3 Topics)</b></summary>
 
 <details>
-<summary>&nbsp;&nbsp;&nbsp;&nbsp;🔴 Advanced: <b>🔴 Advanced (Level 300) (2 Topics)</b></summary>
+<summary>&nbsp;&nbsp;&nbsp;&nbsp;🔴 Advanced: <b>🔴 Advanced (Level 3) (2 Topics)</b></summary>
 
 | # | Topic / Concept | Level | Architectural Definition & Core Principle |
 |:---:|---|:---:|---|
@@ -306,7 +306,7 @@ Comprehensive technical interview guides and flashcard deck located under `inter
 </details>
 
 <details>
-<summary>&nbsp;&nbsp;&nbsp;&nbsp;🟣 Architect: <b>🟣 Staff Architect (Level 400) (1 Topics)</b></summary>
+<summary>&nbsp;&nbsp;&nbsp;&nbsp;🟣 Architect: <b>🟣 Staff Architect (Level 4) (1 Topics)</b></summary>
 
 | # | Topic / Concept | Level | Architectural Definition & Core Principle |
 |:---:|---|:---:|---|
@@ -320,7 +320,7 @@ Comprehensive technical interview guides and flashcard deck located under `inter
 <summary>&nbsp;&nbsp;📂 <b>Section: Engine Vectorization & Hardware Acceleration (4 Topics)</b></summary>
 
 <details>
-<summary>&nbsp;&nbsp;&nbsp;&nbsp;🟢 Easy: <b>🟢 Easy (Level 100) (2 Topics)</b></summary>
+<summary>&nbsp;&nbsp;&nbsp;&nbsp;🟢 Easy: <b>🟢 Easy (Level 1) (2 Topics)</b></summary>
 
 | # | Topic / Concept | Level | Architectural Definition & Core Principle |
 |:---:|---|:---:|---|
@@ -330,7 +330,7 @@ Comprehensive technical interview guides and flashcard deck located under `inter
 </details>
 
 <details>
-<summary>&nbsp;&nbsp;&nbsp;&nbsp;🟡 Intermediate: <b>🟡 Intermediate (Level 200) (1 Topics)</b></summary>
+<summary>&nbsp;&nbsp;&nbsp;&nbsp;🟡 Intermediate: <b>🟡 Intermediate (Level 2) (1 Topics)</b></summary>
 
 | # | Topic / Concept | Level | Architectural Definition & Core Principle |
 |:---:|---|:---:|---|
@@ -339,7 +339,7 @@ Comprehensive technical interview guides and flashcard deck located under `inter
 </details>
 
 <details>
-<summary>&nbsp;&nbsp;&nbsp;&nbsp;🟣 Architect: <b>🟣 Staff Architect (Level 400) (1 Topics)</b></summary>
+<summary>&nbsp;&nbsp;&nbsp;&nbsp;🟣 Architect: <b>🟣 Staff Architect (Level 4) (1 Topics)</b></summary>
 
 | # | Topic / Concept | Level | Architectural Definition & Core Principle |
 |:---:|---|:---:|---|
@@ -353,7 +353,7 @@ Comprehensive technical interview guides and flashcard deck located under `inter
 <summary>&nbsp;&nbsp;📂 <b>Section: Distributed State, CDC & Lakehouse Ingestion (47 Topics)</b></summary>
 
 <details>
-<summary>&nbsp;&nbsp;&nbsp;&nbsp;🟡 Intermediate: <b>🟡 Intermediate (Level 200) (6 Topics)</b></summary>
+<summary>&nbsp;&nbsp;&nbsp;&nbsp;🟡 Intermediate: <b>🟡 Intermediate (Level 2) (6 Topics)</b></summary>
 
 | # | Topic / Concept | Level | Architectural Definition & Core Principle |
 |:---:|---|:---:|---|
@@ -367,7 +367,7 @@ Comprehensive technical interview guides and flashcard deck located under `inter
 </details>
 
 <details>
-<summary>&nbsp;&nbsp;&nbsp;&nbsp;🔴 Advanced: <b>🔴 Advanced (Level 300) (9 Topics)</b></summary>
+<summary>&nbsp;&nbsp;&nbsp;&nbsp;🔴 Advanced: <b>🔴 Advanced (Level 3) (9 Topics)</b></summary>
 
 | # | Topic / Concept | Level | Architectural Definition & Core Principle |
 |:---:|---|:---:|---|
@@ -384,7 +384,7 @@ Comprehensive technical interview guides and flashcard deck located under `inter
 </details>
 
 <details>
-<summary>&nbsp;&nbsp;&nbsp;&nbsp;🟣 Architect: <b>🟣 Staff Architect (Level 400) (32 Topics)</b></summary>
+<summary>&nbsp;&nbsp;&nbsp;&nbsp;🟣 Architect: <b>🟣 Staff Architect (Level 4) (32 Topics)</b></summary>
 
 | # | Topic / Concept | Level | Architectural Definition & Core Principle |
 |:---:|---|:---:|---|
@@ -455,7 +455,7 @@ Distributed under the **[MIT License](LICENSE)**. Maintained with ❤️ by [San
 
 ## 🗺️ Interactive Curriculum Roadmap & Contributing
 
-- **[Interactive Roadmap & Checkbox Tracker](docs/ROADMAP.md)**: Track your personal progress across all 4 Mastery Tiers (`Level 100` to `Level 400`).
+- **[Interactive Roadmap & Checkbox Tracker](docs/ROADMAP.md)**: Track your personal progress across all 4 Mastery Tiers (`Level 1` to `Level 4`).
 - **[Curriculum Taxonomy & Standards](docs/TAXONOMY.md)**: Canonical controlled vocabulary, pillar mappings, and evidence standards.
 - **[Contributing Guidelines](CONTRIBUTING.md)**: Authoring standards enforcing the Code-Test-Doc Triad and Anti-Pattern comparisons.
 - **[Live Platform Hub](https://moderndataengineer.uk)**: Access the full 11,280+ record search engine, mindmaps, and vector PDF downloads.
